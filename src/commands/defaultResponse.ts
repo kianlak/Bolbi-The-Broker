@@ -13,6 +13,6 @@ export async function defaultResponse(message: Message) {
 
     logger.success("Default Response sent to " + message.author.username);
   } catch (error) {
-    logger.error(message.author.username + "'s Default Response failed");
+    logger.error(message.author.username + `'s Default Response failed:\n\t${(error as Error).message}`);
   }
 }

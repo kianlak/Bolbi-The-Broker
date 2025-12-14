@@ -38,7 +38,6 @@ async function startup() {
 
   try {
     if (!ANNOUNCEMENT_CHANNEL) {
-      logger.error("Announcement Channel could not be found or is invalid");
       throw new Error();
     }
 
@@ -59,7 +58,6 @@ async function shutdown(signal: string) {
 
   try {
     if (!ANNOUNCEMENT_CHANNEL) {
-      logger.error("Announcement Channel could not be found or is invalid");
       throw new Error();
     }
 
