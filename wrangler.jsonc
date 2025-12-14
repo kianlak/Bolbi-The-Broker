@@ -1,6 +1,0 @@
-{
-  "name": "bolbi-the-broker",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-01-01",
-  "workers_dev": true
-}
