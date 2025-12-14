@@ -1,5 +1,9 @@
 import 'dotenv/config';
+
 import { Client, GatewayIntentBits } from 'discord.js';
+
+import { logger } from './shared/logger.ts';
+
 import { commandRouter } from './commandRouter.ts';
 
 const client = new Client({
@@ -13,11 +17,10 @@ const client = new Client({
 client.login(process.env.DISCORD_BOT_TOKEN);
 
 client.once('ready', () => {
-  console.log('Bolbi has arrived');
+  logger.info("Bot is live");
 });
 
 client.on('messageCreate', async (message) => {
-  console.log("message received");
   if (message.author.bot) return;
 
   if (message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID ||

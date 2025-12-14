@@ -1,11 +1,18 @@
 import { Message } from 'discord.js';
+
+import { logger } from '../shared/logger.ts';
+
 import { randomMessagePrompt } from '../helper/randomMessagePrompt.ts';
 import { defaultResponsePrompts } from '../data/prompts/defaultResponsePrompts.ts';
 
 export async function defaultResponse(message: Message) {
-  const prompt = randomMessagePrompt(defaultResponsePrompts);
+  try {
+    const prompt = randomMessagePrompt(defaultResponsePrompts);
 
-  console.log("default response");
+    await message.reply(`*${prompt}*`);
 
-  await message.reply(`*${prompt}*`);
+    logger.success("Default Response sent to " + message.author.username);
+  } catch (error) {
+    logger.error(message.author.username + "'s Default Response failed");
+  }
 }

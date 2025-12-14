@@ -1,5 +1,7 @@
 import { Message } from 'discord.js';
 
+import { logger } from './shared/logger.ts';
+
 import { poke } from './commands/poke.ts';
 import { defaultResponse } from './commands/defaultResponse.ts';
 
@@ -11,10 +13,13 @@ export async function commandRouter(message: Message) {
   const messageSections: string[] = message.content.slice(PREFIX.length).trim().split(/\s+/);
   const command: string | undefined = messageSections.shift()?.toLowerCase();
 
+  logger.info(message.author.username + " has requested command " + command);
+
   switch (command) {
-    case 'poke':
-      return poke(message);
+    // case 'poke':
+    //   return poke(message);
     default:
+      logger.info("Command (" + command + ") does not exist, resulting to default response");
       return defaultResponse(message);
   }
 }
