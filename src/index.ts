@@ -2,16 +2,15 @@ import 'dotenv/config';
 import axios from 'axios';
 import { Client, GatewayIntentBits } from 'discord.js';
 
-const client = new Client(
-  { intents: 
-    [
-      GatewayIntentBits.Guilds, 
-      GatewayIntentBits.GuildMessages, 
-      GatewayIntentBits.MessageContent
-    ]
-  }
-)
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+  ],
+});
 
-client.on('ready', () => {
-  console.log('bot is ready');
-})
+client.once('ready', () => {
+  console.log('Bolbi the Broker has arrived');
+});
+
+client.login(process.env.DISCORD_BOT_TOKEN);
