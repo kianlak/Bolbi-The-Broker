@@ -1,4 +1,4 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient, Db, ServerApiVersion } from 'mongodb';
 
 import { logger } from '../shared/logger.ts';
 
@@ -15,10 +15,17 @@ export async function connectToDatabase(): Promise<Db> {
 
   client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 5000,
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
   });
 
   await client.connect();
   db = client.db(dbName);
+
+  await db.command({ ping: 1 });
 
   logger.success(`Connected to ${dbName}`);
 
