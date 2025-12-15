@@ -5,6 +5,7 @@ import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { logger } from './shared/logger.ts';
 
 import { commandRouter } from './commandRouter.ts';
+import { connectToDatabase, disconnectFromDatabase } from './database/mongo.ts';
 
 const ANNOUNCEMENT_CHANNEL = process.env.DISCORD_ALLOWED_CHANNEL_ID;
 
@@ -41,6 +42,7 @@ client.on('messageCreate', async (message) => {
 async function bootstrap() {
   logger.info('Started Bootstrap');
 
+  await connectToDatabase();
   await announceBotReady();
 
   logger.success('Bootstrap complete');
@@ -67,6 +69,8 @@ async function shutdown(signal: string) {
   logger.info(`Started shutdown (${signal})`);
 
   try {
+    await disconnectFromDatabase();
+    
     if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
 
     const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
