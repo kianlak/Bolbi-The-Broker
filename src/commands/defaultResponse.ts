@@ -11,8 +11,8 @@ export async function defaultResponse(message: Message) {
 
     await message.reply(`*${prompt}*`);
 
-    logger.success("Default Response sent to " + message.author.username);
+    logger.success(message.author.username + "'s default response command complete");
   } catch (error) {
-    logger.error(message.author.username + `'s Default Response failed:\n\t${(error as Error).message}`);
+    logger.error(message.author.username + `'s default response command failed:\n\t${(error as Error).message}`);
   }
 }

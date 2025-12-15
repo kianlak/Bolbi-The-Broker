@@ -19,7 +19,12 @@ const client = new Client({
 client.login(process.env.DISCORD_BOT_TOKEN);
 
 client.once('ready', async () => {
-  startup();
+  try {
+    await bootstrap();
+  } catch (error) {
+    logger.error(`Bootstrap failed:\n\t${(error as Error).message}`);
+    process.exit(1);
+  }
 });
 
 client.on('messageCreate', async (message) => {
@@ -33,45 +38,49 @@ client.on('messageCreate', async (message) => {
   return;
 });
 
-async function startup() {
-  logger.info(`Startup signal received`);
+async function bootstrap() {
+  logger.info('Started Bootstrap');
 
+  await announceBotReady();
+
+  logger.success('Bootstrap complete');
+}
+
+async function announceBotReady() {
   try {
-    if (!ANNOUNCEMENT_CHANNEL) {
-      throw new Error();
-    }
+    if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
 
     const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
 
     if (channel?.isTextBased()) {
-      await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
-
-      logger.success('Announcement has been sent');
+      // await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
     }
+
+    logger.success('Bot status announced');
   } catch (error) {
-    logger.error(`Failed to send startup message:\n\t${(error as Error).message}`);
+    logger.error(`Bot status announcement failed:\n\t${(error as Error).message}`);
+    process.exit(1);
   }
 }
 
 async function shutdown(signal: string) {
-  logger.info(`Shutdown signal received: ${signal}`);
+  logger.info(`Started shutdown (${signal})`);
 
   try {
-    if (!ANNOUNCEMENT_CHANNEL) {
-      throw new Error();
-    }
+    if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
 
     const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
 
     if (channel?.isTextBased()) {
-      await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
-
-      logger.success('Shutdown message has been sent');
+      // await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
     }
-  } catch (err) {
-    logger.error(`Failed to send shutdown message:\n\t${(err as Error).message}`);
+
+    logger.success('Bot status announced');
+  } catch (error) {
+    logger.error(`Bot status announcement failed:\n\t${(error as Error).message}`);
   } finally {
     client.destroy();
+    logger.success('Shutdown complete');
     process.exit(0);
   }
 }
@@ -79,6 +88,6 @@ async function shutdown(signal: string) {
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 process.on('uncaughtException', async (error) => {
-  logger.error(`Uncaught exception: ${error.message}`);
+  logger.error(`Uncaught exception:\n\t${error.message}`);
   await shutdown('uncaughtException');
 });

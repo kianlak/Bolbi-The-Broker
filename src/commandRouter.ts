@@ -23,7 +23,7 @@ export async function commandRouter(message: Message) {
     // case 'poke':
     //   return poke(message);
     default:
-      logger.info(message.author.username + "'s command (" + command + ") does not exist, resulting to default response");
+      logger.info(message.author.username + "'s command (" + command + ") does not exist, routing to default response");
       return defaultResponse(message);
   }
 }
