@@ -1,4 +1,7 @@
 export const commandAliases: Record<string, string> = {
   beg: 'beg',
-  b: 'beg'
+  b: 'beg',
+  
+  profile: 'profile',
+  p: 'profile,'
 };

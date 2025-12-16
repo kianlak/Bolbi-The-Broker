@@ -17,27 +17,15 @@ export async function beg(message: Message) {
     const { allowed, remainingMs } = userService.canBeg(userDiscordId);
   
     if (!allowed) {
-      const minutes = milisecondsToMinutes(remainingMs);
-  
-      await message.reply(
-        `You must wait \`${minutes} minutes\` before partaking in begging activities again`
-      );
-  
+      await handleCooldown(message, remainingMs);
       return;
     }
   
-    const reward = Math.floor(Math.random() * 100);
+    const reward = calculateBegReward();
   
-    const db = getDb();
-     
-    const tx = db.transaction(() => {
-      userService.addBalehBucks(userDiscordId, reward);
-      userService.recordBeg(userDiscordId);
-    });
+    applyBegTransaction(userDiscordId, reward);
   
-    tx();
-  
-    const newBalance = userService.getBalance(userDiscordId);
+    const newBalance = userService.getBalanceByDiscordId(userDiscordId);
   
     const prompt = randomMessagePrompt(begPrompts);
   
@@ -49,5 +37,28 @@ export async function beg(message: Message) {
     logger.success(message.author.username + "'s beg command complete");
   } catch (error) {
     logger.error(message.author.username + `'s beg command failed:\n\t${(error as Error).message}`);
+  }
+
+  async function handleCooldown(message: Message, remainingMs: number) {
+    const minutes = milisecondsToMinutes(remainingMs);
+
+    await message.reply(
+      `You must wait \`${minutes} minutes\` before partaking in begging activities again`
+    );
+  }
+
+  function calculateBegReward(): number {
+    return Math.floor(Math.random() * 100);
+  }
+
+  function applyBegTransaction(userDiscordId: string, reward: number) {
+    const db = getDb();
+
+    const tx = db.transaction(() => {
+      userService.addBalehBucks(userDiscordId, reward);
+      userService.recordBeg(userDiscordId);
+    });
+
+    tx();
   }
 }

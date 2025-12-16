@@ -1,8 +1,7 @@
 import { USER_QUERIES } from "./queries.ts";
+import { BEG_COOLDOWN_MS } from "../../../data/constants.ts";
 
 import { getDb } from "../../../database/sqlite.ts";
-
-const BEG_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 hours
 
 export class UserService {
   ensureUser(discordId: string) {
@@ -42,11 +41,11 @@ export class UserService {
     db.prepare(USER_QUERIES.addBalehBucks).run(amount, discordId);
   }
 
-  getBalance(discordId: string): number {
+  getBalanceByDiscordId(discordId: string): number {
     const db = getDb();
 
     const row = db
-      .prepare(USER_QUERIES.getUserByDiscordId)
+      .prepare(USER_QUERIES.getBalehBucksByDiscordId)
       .get(discordId) as { baleh_bucks: number } | undefined;
 
     return row?.baleh_bucks ?? 0;
@@ -55,6 +54,12 @@ export class UserService {
   getUserByDiscordId(discordId: string) {
     const db = getDb();
 
-    return db.prepare(USER_QUERIES.getUserByDiscordId).get(discordId);
+    const row = db.prepare(USER_QUERIES.getUserByDiscordId).get(discordId) as {
+      discord_id: string;
+      baleh_bucks: number;
+      last_beg_at: number | null;
+    };
+
+    return row;
   }
 }

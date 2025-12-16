@@ -1,5 +1,7 @@
 import 'dotenv/config';
 
+import { ALLOWED_CHANNELS } from './data/constants.ts';
+
 import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
 
 import { logger } from './shared/logger.ts';
@@ -32,12 +34,12 @@ client.once('ready', async () => {
 
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
+  
+  const userService = new UserService();
 
-  if (message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID ||
-      message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID_DEV) {
-    const userService = new UserService();
+  if (ALLOWED_CHANNELS.has(message.channel.id)) {
     userService.ensureUser(message.author.id);
-    
+
     await commandRouter(message);
   }
 
@@ -62,7 +64,7 @@ async function announceBotReady() {
     const channel = await client.channels.fetch(MAIN_CHANNEL);
 
     if (channel?.isTextBased()) {
-      await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
+      // await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
     }
 
     logger.success('Bot status announced');
@@ -83,7 +85,7 @@ async function shutdown(signal: string) {
     const channel = await client.channels.fetch(MAIN_CHANNEL);
 
     if (channel?.isTextBased()) {
-      await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
+      // await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
     }
 
     logger.success('Bot status announced');

@@ -6,7 +6,11 @@ export const USER_QUERIES = {
   `,
 
   getUserByDiscordId: `
-    SELECT id, discord_id, baleh_bucks
+    SELECT 
+      id, 
+      discord_id, 
+      baleh_bucks, 
+      last_beg_at
     FROM users
     WHERE discord_id = ?;
   `,
@@ -26,6 +30,12 @@ export const USER_QUERIES = {
   addBalehBucks: `
     UPDATE users
     SET baleh_bucks = baleh_bucks + ?
+    WHERE discord_id = ?;
+  `,
+
+  getBalehBucksByDiscordId: `
+    SELECT baleh_bucks
+    FROM users
     WHERE discord_id = ?;
   `,
 };
