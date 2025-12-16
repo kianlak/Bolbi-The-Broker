@@ -15,7 +15,7 @@ export async function profile(message: Message) {
     const userDiscordId = message.author.id;
     const user = userService.getUserByDiscordId(userDiscordId);
     const cooldown = user.last_beg_at ? milisecondsToMinutes(BEG_COOLDOWN_MS - (now -user.last_beg_at)) : 0;
-    const begReadyStatus = cooldown != 0 ? `\`${cooldown} minutes\`` : '\`Ready\`'
+    const begReadyStatus = cooldown <= 0 ? '\`Ready\`' : `\`${cooldown} minutes\``; 
 
     const embed = new EmbedBuilder()
       .setColor(0xf1c40f)

@@ -31,6 +31,7 @@ export async function beg(message: Message) {
   
     await message.reply(
       `*${prompt}*\n` +
+      `You earned: \`${reward}\` baleh bucks💲\n` + 
       `Your new balance is: \`${newBalance}\` 💰`
     );
 
