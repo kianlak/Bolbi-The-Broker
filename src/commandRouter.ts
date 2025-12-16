@@ -6,6 +6,7 @@ import { commandAliases } from './data/commandAliases.ts';
 import { defaultResponse } from './commands/defaultResponse.ts';
 import { beg } from './commands/beg.ts';
 import { profile } from './commands/profile.ts';
+import { casino } from './commands/casino.ts';
 
 const PREFIX = '+';
 
@@ -25,6 +26,8 @@ export async function commandRouter(message: Message) {
       return beg(message);
     case 'profile':
       return profile(message);
+    case 'casino':
+      return casino(message);
     default:
       logger.info(message.author.username + "'s command (" + command + ") does not exist, routing to default response");
       return defaultResponse(message);

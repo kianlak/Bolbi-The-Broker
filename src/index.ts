@@ -7,6 +7,7 @@ import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
 import { logger } from './shared/logger.ts';
 
 import { commandRouter } from './commandRouter.ts';
+import { interactionRouter } from './interactions/interactionsRouter.ts';
 import { ensureSchemas } from './database/helper/ensureSchemas.ts';
 import { closeSqliteDBConnection, connectToSqliteDB } from './database/sqlite.ts';
 import { UserService } from './helper/services/UserService/userService.ts';
@@ -45,6 +46,15 @@ client.on('messageCreate', async (message) => {
 
   return;
 });
+
+client.on('interactionCreate', async (interaction) => {
+  try {
+    await interactionRouter(interaction);
+  } catch (err) {
+    console.error('Interaction error:', err);
+  }
+});
+
 
 async function bootstrap() {
   logger.info('Started Bootstrap');

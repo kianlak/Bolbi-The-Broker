@@ -3,5 +3,8 @@ export const commandAliases: Record<string, string> = {
   b: 'beg',
   
   profile: 'profile',
-  p: 'profile,'
+  p: 'profile',
+
+  casino: 'casino',
+  c: 'casino',
 };
