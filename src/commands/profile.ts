@@ -38,6 +38,8 @@ export async function profile(message: Message) {
       .setTimestamp();
 
     await message.reply({ embeds: [embed] });
+
+    logger.success(message.author.username + "'s profile command complete");
   } catch (error) {
     logger.error(message.author.username + `'s profile command failed:\n\t${(error as Error).message}`);
   }
