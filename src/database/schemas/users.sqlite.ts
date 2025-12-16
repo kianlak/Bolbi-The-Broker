@@ -9,7 +9,8 @@ export const usersSchema: DatabaseSchema = {
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         discord_id TEXT NOT NULL UNIQUE,
-        baleh_bucks INTEGER NOT NULL DEFAULT 0
+        baleh_bucks INTEGER NOT NULL DEFAULT 0,
+        last_beg_at INTEGER
       );
     `);
   },

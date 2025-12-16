@@ -4,7 +4,7 @@ import { logger } from './shared/logger.ts';
 
 import { commandAliases } from './data/commandAliases.ts';
 import { defaultResponse } from './commands/defaultResponse.ts';
-import { poke } from './commands/poke.ts';
+import { beg } from './commands/beg.ts';
 
 const PREFIX = '+';
 
@@ -20,8 +20,8 @@ export async function commandRouter(message: Message) {
   logger.info(message.author.username + " has requested command " + command);
 
   switch (command) {
-    // case 'poke':
-    //   return poke(message);
+    case 'beg':
+      return beg(message);
     default:
       logger.info(message.author.username + "'s command (" + command + ") does not exist, routing to default response");
       return defaultResponse(message);

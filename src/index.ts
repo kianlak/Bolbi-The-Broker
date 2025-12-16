@@ -7,7 +7,7 @@ import { logger } from './shared/logger.ts';
 import { commandRouter } from './commandRouter.ts';
 import { ensureSchemas } from './database/helper/ensureSchemas.ts';
 import { closeSqliteDBConnection, connectToSqliteDB } from './database/sqlite.ts';
-import { UserService } from './helper/services/userService.ts';
+import { UserService } from './helper/services/UserService/userService.ts';
 
 const ANNOUNCEMENT_CHANNEL = process.env.DISCORD_ALLOWED_CHANNEL_ID;
 
