@@ -9,7 +9,7 @@ import { ensureSchemas } from './database/helper/ensureSchemas.ts';
 import { closeSqliteDBConnection, connectToSqliteDB } from './database/sqlite.ts';
 import { UserService } from './helper/services/UserService/userService.ts';
 
-const ANNOUNCEMENT_CHANNEL = process.env.DISCORD_ALLOWED_CHANNEL_ID;
+const MAIN_CHANNEL = process.env.DISCORD_MAIN_CHANNEL_ID;
 
 const client = new Client({
   intents: [
@@ -33,11 +33,11 @@ client.once('ready', async () => {
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
-  const userService = new UserService();
-  userService.ensureUser(message.author.id);
-
   if (message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID ||
       message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID_DEV) {
+    const userService = new UserService();
+    userService.ensureUser(message.author.id);
+    
     await commandRouter(message);
   }
 
@@ -57,9 +57,9 @@ async function bootstrap() {
 
 async function announceBotReady() {
   try {
-    if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
+    if (!MAIN_CHANNEL) throw new Error('Announcement channel could not be found');
 
-    const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
+    const channel = await client.channels.fetch(MAIN_CHANNEL);
 
     if (channel?.isTextBased()) {
       await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
@@ -78,9 +78,9 @@ async function shutdown(signal: string) {
   try {
     closeSqliteDBConnection();
 
-    if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
+    if (!MAIN_CHANNEL) throw new Error('Announcement channel could not be found');
 
-    const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
+    const channel = await client.channels.fetch(MAIN_CHANNEL);
 
     if (channel?.isTextBased()) {
       await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');

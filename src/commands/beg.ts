@@ -6,6 +6,7 @@ import { UserService } from '../helper/services/UserService/userService.ts';
 import { randomMessagePrompt } from '../helper/randomMessagePrompt.ts';
 import { begPrompts } from '../data/prompts/begPrompts.ts';
 import { getDb } from '../database/sqlite.ts';
+import { milisecondsToMinutes } from '../helper/milisecondsToMinutes.ts';
 
 const userService = new UserService();
 
@@ -16,7 +17,7 @@ export async function beg(message: Message) {
     const { allowed, remainingMs } = userService.canBeg(userDiscordId);
   
     if (!allowed) {
-      const minutes = Math.ceil(remainingMs / 60000);
+      const minutes = milisecondsToMinutes(remainingMs);
   
       await message.reply(
         `You must wait \`${minutes} minutes\` before partaking in begging activities again`
@@ -25,10 +26,10 @@ export async function beg(message: Message) {
       return;
     }
   
-    const reward = Math.floor(Math.random() * 100) + 0;
+    const reward = Math.floor(Math.random() * 100);
   
     const db = getDb();
-    
+     
     const tx = db.transaction(() => {
       userService.addBalehBucks(userDiscordId, reward);
       userService.recordBeg(userDiscordId);

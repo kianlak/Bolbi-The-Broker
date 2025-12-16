@@ -42,7 +42,6 @@ export class UserService {
     db.prepare(USER_QUERIES.addBalehBucks).run(amount, discordId);
   }
 
-
   getBalance(discordId: string): number {
     const db = getDb();
 
