@@ -1,7 +1,5 @@
 import type Database from 'better-sqlite3';
 
-import { logger } from '../../shared/logger.ts';
-
 import type { DatabaseSchema } from '../types/DatabaseSchema.ts';
 
 export const usersSchema: DatabaseSchema = {

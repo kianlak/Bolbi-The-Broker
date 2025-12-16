@@ -18,7 +18,7 @@ export function connectToSqliteDB(): Database.Database {
 }
 
 export function getDb(): Database.Database {
-  if (!db) throw new Error('Dtabase is not initialized');
+  if (!db) throw new Error('Database is not initialized');
 
   return db;
 }

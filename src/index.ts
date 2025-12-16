@@ -7,6 +7,7 @@ import { logger } from './shared/logger.ts';
 import { commandRouter } from './commandRouter.ts';
 import { ensureSchemas } from './database/helper/ensureSchemas.ts';
 import { closeSqliteDBConnection, connectToSqliteDB } from './database/sqlite.ts';
+import { UserService } from './helper/services/userService.ts';
 
 const ANNOUNCEMENT_CHANNEL = process.env.DISCORD_ALLOWED_CHANNEL_ID;
 
@@ -32,6 +33,9 @@ client.once('ready', async () => {
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
+  const userService = new UserService();
+  userService.ensureUser(message.author.id);
+
   if (message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID ||
       message.channel.id === process.env.DISCORD_ALLOWED_CHANNEL_ID_DEV) {
     await commandRouter(message);
@@ -44,6 +48,7 @@ async function bootstrap() {
   logger.info('Started Bootstrap');
 
   const db = connectToSqliteDB();
+  
   ensureSchemas(db);
   await announceBotReady();
 
@@ -71,7 +76,7 @@ async function shutdown(signal: string) {
   logger.info(`Started shutdown (${signal})`);
 
   try {
-    await closeSqliteDBConnection();
+    closeSqliteDBConnection();
 
     if (!ANNOUNCEMENT_CHANNEL) throw new Error('Announcement channel could not be found');
 
