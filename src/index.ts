@@ -62,7 +62,7 @@ async function announceBotReady() {
     const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
 
     if (channel?.isTextBased()) {
-      // await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
+      await (channel as TextChannel).send('`🏪 Bolbi has arrived 🏪`');
     }
 
     logger.success('Bot status announced');
@@ -83,7 +83,7 @@ async function shutdown(signal: string) {
     const channel = await client.channels.fetch(ANNOUNCEMENT_CHANNEL);
 
     if (channel?.isTextBased()) {
-      // await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
+      await (channel as TextChannel).send('`🔕 Bolbi has left his stand 🔕`');
     }
 
     logger.success('Bot status announced');
