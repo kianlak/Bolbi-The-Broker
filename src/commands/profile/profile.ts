@@ -1,11 +1,11 @@
 import { EmbedBuilder, Message } from 'discord.js';
 
-import { BEG_COOLDOWN_MS } from '../data/constants.ts';
+import { BEG_COOLDOWN_MS } from '../../data/constants.ts';
 
-import { logger } from '../shared/logger.ts';
+import { logger } from '../../shared/logger.ts';
 
-import { UserService } from '../helper/services/UserService/userService.ts';
-import { milisecondsToMinutes } from '../helper/milisecondsToMinutes.ts';
+import { UserService } from '../../helper/services/UserService/userService.ts';
+import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
 
 const userService = new UserService();
 

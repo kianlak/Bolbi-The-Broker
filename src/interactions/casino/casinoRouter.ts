@@ -1,20 +1,22 @@
-import { MessageComponentInteraction } from 'discord.js';
+import type { Interaction } from 'discord.js';
+import { handleCasinoSelect } from './handleCasinoSelect.ts';
 
-import { handleCasinoSelect } from './casinoSelect.ts';
-import { handleRouletteSpin } from './roulette.ts';
+export async function casinoInteractionRouter(interaction: Interaction) {
+  if (!interaction.isMessageComponent()) return;
 
-export async function casinoInteractionRouter(interaction: MessageComponentInteraction) {
-  const [, action] = interaction.customId.split(':');
+  const [, action, ownerId] = interaction.customId.split(':');
 
-  if (interaction.isStringSelectMenu()) {
-    if (action === 'select') {
-      return handleCasinoSelect(interaction);
-    }
+  if (interaction.user.id !== ownerId) {
+    await interaction.reply({
+      content: '🚫 This casino menu isn\'t yours',
+      ephemeral: true,
+    });
+    return;
   }
 
-  if (interaction.isButton()) {
-    if (action === 'roulette') {
-      return handleRouletteSpin(interaction);
-    }
+  switch (action) {
+    case 'select':
+      if (!interaction.isStringSelectMenu()) return;
+      return handleCasinoSelect(interaction);
   }
 }

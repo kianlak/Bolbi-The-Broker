@@ -1,12 +1,12 @@
 import { Message } from 'discord.js';
 
-import { logger } from '../shared/logger.ts';
+import { logger } from '../../shared/logger.ts';
 
-import { UserService } from '../helper/services/UserService/userService.ts';
-import { randomMessagePrompt } from '../helper/randomMessagePrompt.ts';
-import { begPrompts } from '../data/prompts/begPrompts.ts';
-import { getDb } from '../database/sqlite.ts';
-import { milisecondsToMinutes } from '../helper/milisecondsToMinutes.ts';
+import { UserService } from '../../helper/services/UserService/userService.ts';
+import { randomMessagePrompt } from '../../helper/randomMessagePrompt.ts';
+import { begPrompts } from '../../data/prompts/begPrompts.ts';
+import { getDb } from '../../database/sqlite.ts';
+import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
 
 const userService = new UserService();
 
@@ -22,7 +22,7 @@ export async function beg(message: Message) {
     }
   
     const reward = calculateBegReward();
-  
+
     applyBegTransaction(userDiscordId, reward);
   
     const newBalance = userService.getBalanceByDiscordId(userDiscordId);

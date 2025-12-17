@@ -1,16 +1,22 @@
 import type { Interaction } from 'discord.js';
 import { casinoInteractionRouter } from './casino/casinoRouter.ts';
+import { rouletteInteractionRouter } from './casino/roulette/rouletteRouter.ts';
+
+const DOMAIN_ROUTERS: Record<
+  string,
+  (interaction: Interaction) => Promise<void>
+> = {
+  casino: casinoInteractionRouter,
+  roulette: rouletteInteractionRouter,
+};
 
 export async function interactionRouter(interaction: Interaction) {
-  if (!interaction.isMessageComponent()) return;
+  if (!('customId' in interaction)) return;
 
-  const [interactionDomain] = interaction.customId.split(':');
+  const [domain] = interaction.customId.split(':');
+  const router = DOMAIN_ROUTERS[domain];
 
-  switch (interactionDomain) {
-    case 'casino':
-      return casinoInteractionRouter(interaction);
+  if (!router) return;
 
-    default:
-      return;
-  }
+  await router(interaction);
 }
