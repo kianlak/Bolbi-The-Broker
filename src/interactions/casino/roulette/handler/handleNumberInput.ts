@@ -1,5 +1,6 @@
 import { ModalSubmitInteraction, EmbedBuilder } from 'discord.js';
-import { buildConfirmNumberTarget } from './data/buildConfirmNumberTarget.ts';
+import { buildConfirmNumberTarget } from '../data/buildConfirmNumberTarget.ts';
+import { parseRouletteNumber } from '../parseRouletteNumber.ts';
 
 export async function handleNumberInput(
   interaction: ModalSubmitInteraction
@@ -14,19 +15,12 @@ export async function handleNumberInput(
     return;
   }
 
-  const raw = interaction.fields
-    .getTextInputValue('number')
-    .trim();
+  const raw = interaction.fields.getTextInputValue('number');
+  const value = parseRouletteNumber(raw);
 
-  const value = raw === '00' ? 37 : Number(raw);
-
-  if (
-    !Number.isInteger(value) ||
-    value < 0 ||
-    value > 37
-  ) {
+  if (value === null) {
     await interaction.reply({
-      content: '❌ Invalid number. Enter 0–36 or 00.',
+      content: '❌ Invalid number. Enter **0-36** or **00**.',
       ephemeral: true,
     });
     return;
@@ -34,6 +28,10 @@ export async function handleNumberInput(
 
   const embed = new EmbedBuilder()
     .setTitle('🎯 Number Selected')
+    .setAuthor({
+      name: interaction.user.tag,
+      iconURL: interaction.user.displayAvatarURL()
+    })
     .setDescription(
       `You selected **${
         value === 37 ? '00' : value

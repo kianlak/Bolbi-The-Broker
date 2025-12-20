@@ -7,10 +7,13 @@ import { randomMessagePrompt } from '../../helper/randomMessagePrompt.ts';
 import { begPrompts } from '../../data/prompts/begPrompts.ts';
 import { getDb } from '../../database/sqlite.ts';
 import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
+import { tokenize } from '../../helper/tokenizeCommand.ts';
 
 const userService = new UserService();
 
 export async function beg(message: Message) {
+  // const tokenizedComand = tokenize(message.content);
+
   try {
     const userDiscordId = message.author.id;
   
@@ -58,6 +61,8 @@ export async function beg(message: Message) {
     const tx = db.transaction(() => {
       userService.addBalehBucks(userDiscordId, reward);
       userService.recordBeg(userDiscordId);
+      userService.incrementNumberOfBegs(userDiscordId);
+      userService.incrementBegProfit(userDiscordId, reward);
     });
 
     tx();

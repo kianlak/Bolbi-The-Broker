@@ -1,6 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 
-import { deleteSession } from './rouletteSession.ts';
+import { deleteSession } from '../rouletteSession.ts';
 
 export async function handleExit(
   interaction: ButtonInteraction
@@ -18,8 +18,6 @@ export async function handleExit(
   deleteSession(ownerId);
 
   await interaction.update({
-    content: '🎲 Thanks for playing roulette!',
-    embeds: [],
     components: [],
   });
 }

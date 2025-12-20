@@ -3,7 +3,9 @@ import { EmbedBuilder } from 'discord.js';
 import type { RouletteSession } from '../rouletteSession.ts';
 
 export function buildRouletteDashboard(
-  session: RouletteSession
+  session: RouletteSession,
+  userTag: string,
+  userAvatarUrl: string
 ): EmbedBuilder {
   const total = session.bets.reduce(
     (sum, bet) => sum + bet.amount,
@@ -22,8 +24,13 @@ export function buildRouletteDashboard(
 
   return new EmbedBuilder()
     .setTitle('🎡 Roulette — Betting Table')
+    .setAuthor({
+      name: userTag,
+      iconURL: userAvatarUrl,
+    })
     .setDescription(
       [
+        `session`,
         `**Total Wagered:** $${total}`,
         '',
         '**Your Bets:**',
@@ -32,6 +39,6 @@ export function buildRouletteDashboard(
     )
     .setColor(0xe74c3c)
     .setFooter({
-      text: 'Add bets, remove bets, or spin when ready',
+      text: `Add bets, remove bets, or spin when ready`,
     });
 }

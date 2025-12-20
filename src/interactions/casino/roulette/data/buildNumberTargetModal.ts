@@ -8,7 +8,7 @@ import {
 export function buildNumberTargetModal(ownerId: string) {
   const input = new TextInputBuilder()
     .setCustomId('number')
-    .setLabel('Enter a number (0–36 or 00)')
+    .setLabel('Enter a number (0-36 or 00)')
     .setStyle(TextInputStyle.Short)
     .setRequired(true);
 

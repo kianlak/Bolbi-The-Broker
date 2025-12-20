@@ -10,7 +10,9 @@ export const USER_QUERIES = {
       id, 
       discord_id, 
       baleh_bucks, 
-      last_beg_at
+      last_beg_at,
+      number_of_begs,
+      beg_profit
     FROM users
     WHERE discord_id = ?;
   `,
@@ -36,6 +38,18 @@ export const USER_QUERIES = {
   getBalehBucksByDiscordId: `
     SELECT baleh_bucks
     FROM users
+    WHERE discord_id = ?;
+  `,
+
+  incrementNumberOfBegs: `
+    UPDATE users
+    SET number_of_begs = number_of_begs + 1
+    WHERE discord_id = ?;
+  `,
+
+  incrementBegProfit: `
+    UPDATE users
+    SET beg_profit = beg_profit + ?
     WHERE discord_id = ?;
   `,
 };

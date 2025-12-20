@@ -15,5 +15,10 @@ export function buildColorTargetButtons(ownerId: string) {
       .setCustomId(`roulette:target:COLOR:BLACK:${ownerId}`)
       .setLabel('Black')
       .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+      .setCustomId(`roulette:exit:${ownerId}`)
+      .setLabel('🚪 Exit')
+      .setStyle(ButtonStyle.Secondary)
   );
 }

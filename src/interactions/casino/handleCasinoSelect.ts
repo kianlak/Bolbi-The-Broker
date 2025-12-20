@@ -14,6 +14,10 @@ export async function handleCasinoSelect(
     case 'roulette':
       const embed = new EmbedBuilder()
         .setTitle('🎡 Roulette')
+        .setAuthor({
+          name: interaction.user.tag,
+          iconURL: interaction.user.displayAvatarURL(),
+        })
         .setDescription(
           [
             'Welcome to Roulette.',

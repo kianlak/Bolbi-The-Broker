@@ -7,7 +7,9 @@ export class UserService {
   ensureUser(discordId: string) {
     const db = getDb();
 
-    db.prepare(USER_QUERIES.ensureUser).run(discordId);
+    const result = db.prepare(USER_QUERIES.ensureUser).run(discordId);
+
+    return result.changes === 1;
   }
 
   canBeg(discordId: string): { allowed: boolean; remainingMs: number } {
@@ -35,10 +37,28 @@ export class UserService {
     db.prepare(USER_QUERIES.recordBeg).run(Date.now(), discordId);
   }
 
+  incrementNumberOfBegs(discordId: string) {
+    const db = getDb();
+
+    db.prepare(USER_QUERIES.incrementNumberOfBegs).run(discordId);
+  }
+
+  incrementBegProfit(discordId: string, amount: number) {
+    const db = getDb();
+
+    db.prepare(USER_QUERIES.incrementBegProfit).run(amount, discordId);
+  }
+
   addBalehBucks(discordId: string, amount: number) {
     const db = getDb();
 
     db.prepare(USER_QUERIES.addBalehBucks).run(amount, discordId);
+  }
+
+  subtractBalehBucks(discordId: string, amount: number) {
+    const db = getDb();
+
+    db.prepare(USER_QUERIES.addBalehBucks).run(-amount, discordId);
   }
 
   getBalanceByDiscordId(discordId: string): number {
@@ -58,6 +78,8 @@ export class UserService {
       discord_id: string;
       baleh_bucks: number;
       last_beg_at: number | null;
+      number_of_begs: number;
+      beg_profit: number;
     };
 
     return row;

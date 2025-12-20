@@ -4,7 +4,9 @@ import type { ResolvedBet } from '../engine/resolveBets.ts';
 
 export function buildSpinResultEmbed(
   result: number,
-  resolved: ResolvedBet[]
+  resolved: ResolvedBet[],
+  userTag: string,
+  userAvatarUrl: string
 ): EmbedBuilder {
   const pretty = result === 37 ? '00' : result;
   const totalBet = resolved.reduce((s, r) => s + r.bet.amount, 0);
@@ -16,19 +18,25 @@ export function buildSpinResultEmbed(
       ? ['No bets placed']
       : resolved.map(r =>
           r.won
-            ? `✅ **${r.bet.category} → ${r.bet.target}** +$${r.payout}`
-            : `❌ **${r.bet.category} → ${r.bet.target}** -$${r.bet.amount}`
+            ? `✅ **${r.bet.category} → ${r.bet.target == 37 ? '00' : r.bet.target}** +$${r.payout}`
+            : `❌ **${r.bet.category} → ${r.bet.target == 37 ? '00' : r.bet.target}** -$${r.bet.amount}`
         );
+
+  const prompt = net >= 0 ? `**Net Gain: $${net}**` : `**Net Loss: $${net}**`;
 
   return new EmbedBuilder()
     .setTitle('🎲 Roulette Results')
+    .setAuthor({
+      name: userTag,
+      iconURL: userAvatarUrl,
+    })
     .setDescription(
       [
-        `**Result:** ${pretty}`,
+        `**⚪ Ball landed on:** ${pretty}`,
         '',
         ...lines,
         '',
-        `**Net:** ${net >= 0 ? '+' : ''}$${net}`,
+        `${prompt}`,
       ].join('\n')
     )
     .setColor(net >= 0 ? 0x2ecc71 : 0xe74c3c);

@@ -1,15 +1,17 @@
 import type { Interaction } from 'discord.js';
 
-import { handleAddBet } from './handleAddBet.ts';
-import { handleTargetSelect } from './handleTargetSelect.ts';
-import { handleWagerSubmit } from './handleRouletteWagerSubmit.ts';
-import { handleRemoveBet } from './handleRemoveBet.ts';
-import { handleRemoveBetSelect } from './handleRemoveBetSelect.ts';
-import { handleOpenWagerModal } from './handleOpenWagerModal.ts';
-import { handleNumberInput } from './handleNumberInput.ts';
-import { handleSpin } from './handleSpin.ts';
-import { handleNewRound } from './handleNewRound.ts';
-import { handleExit } from './handleExit.ts';
+import { handleAddBet } from './handler/handleAddBet.ts';
+import { handleTargetSelect } from './handler/handleTargetSelect.ts';
+import { handleRemoveBet } from './handler/handleRemoveBet.ts';
+import { handleRemoveBetSelect } from './handler/handleRemoveBetSelect.ts';
+import { handleOpenWagerModal } from './handler/handleOpenWagerModal.ts';
+import { handleNumberInput } from './handler/handleNumberInput.ts';
+import { handleSpin } from './handler/handleSpin.ts';
+import { handleNewRound } from './handler/handleNewRound.ts';
+import { handleExit } from './handler/handleExit.ts';
+import { handleRouletteWagerSubmit } from './handler/handleRouletteWagerSubmit.ts';
+import { handleDoubleStreetTargetSelect } from './handler/handleDoubleStreetTargetSelect.ts';
+import { handleStreetTargetSelect } from './handler/handleStreetTargetSelect.ts';
 
 export async function rouletteInteractionRouter(
   interaction: Interaction
@@ -20,7 +22,7 @@ export async function rouletteInteractionRouter(
 
   const parts = interaction.customId.split(':');
   const ownerId = parts.at(-1);
-
+  
   if (interaction.user.id !== ownerId) {
     await interaction.reply({
       content: '🚫 This roulette session is not yours.',
@@ -28,8 +30,9 @@ export async function rouletteInteractionRouter(
     });
     return;
   }
-
+  
   const action = parts[1];
+  const category = parts[2];
 
   switch (action) {
     case 'add-bet':
@@ -40,6 +43,12 @@ export async function rouletteInteractionRouter(
     case 'target':
       if (interaction.isButton())
         await handleTargetSelect(interaction);
+      if (interaction.isStringSelectMenu() && category === 'DOUBLE_STREET') {
+        await handleDoubleStreetTargetSelect(interaction);
+      }
+      else if (interaction.isStringSelectMenu() && category === 'STREET') {
+        await handleStreetTargetSelect(interaction);
+      }
       return;
 
     case 'number-input':
@@ -50,7 +59,7 @@ export async function rouletteInteractionRouter(
     
     case 'wager':
       if (interaction.isModalSubmit()) {
-        await handleWagerSubmit(interaction);
+        await handleRouletteWagerSubmit(interaction);
       }
       return;
       

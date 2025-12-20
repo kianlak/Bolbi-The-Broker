@@ -1,46 +1,54 @@
-import { EmbedBuilder, Message } from 'discord.js';
-
-import { BEG_COOLDOWN_MS } from '../../data/constants.ts';
-
+import { Message } from 'discord.js';
 import { logger } from '../../shared/logger.ts';
+import { buildProfileContext } from './data/buildProfileContext.ts';
+import { buildProfileMenu } from './data/buildProfileMenu.ts';
+import { renderProfilePage } from './profileRouter.ts';
+import type { ProfilePage } from './types/ProfilePage.ts';
 
-import { UserService } from '../../helper/services/UserService/userService.ts';
-import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
 
-const userService = new UserService();
 
 export async function profile(message: Message) {
   try {
-    const now = Date.now();
-    const userDiscordId = message.author.id;
-    const user = userService.getUserByDiscordId(userDiscordId);
-    const cooldown = user.last_beg_at ? milisecondsToMinutes(BEG_COOLDOWN_MS - (now -user.last_beg_at)) : 0;
-    const begReadyStatus = cooldown <= 0 ? '\`Ready\`' : `\`${cooldown} minutes\``; 
+    const ctx = buildProfileContext(message);
+    const menuRow = buildProfileMenu(ctx.userId);
 
-    const embed = new EmbedBuilder()
-      .setColor(0xf1c40f)
-      .setAuthor({
-        name: `${message.author.username}'s Profile`,
-        iconURL: message.author.displayAvatarURL(),
-      })
-      .setThumbnail(message.author.displayAvatarURL())
-      .addFields(
-        {
-          name: '💰 Baleh Bucks',
-          value: `\`${user.baleh_bucks}\``,
-        },
-        {
-          name: '🙏 Beg Cooldown',
-          value: `${begReadyStatus}`,
-        }
-      )
-      .setFooter({ text: 'Bolbi The Broker' })
-      .setTimestamp();
+    const reply = await message.reply({
+      embeds: [await renderProfilePage('main', ctx)],
+      components: [menuRow],
+    });
 
-    await message.reply({ embeds: [embed] });
+    const collector = reply.createMessageComponentCollector({
+      time: 60_000,
+    });
 
-    logger.success(message.author.username + "'s profile command complete");
+    collector.on('collect', async interaction => {
+      if (interaction.user.id !== ctx.userId) {
+        await interaction.reply({
+          content: '❌ This profile is not yours.',
+          ephemeral: true,
+        });
+        return;
+      }
+
+      if (!interaction.isStringSelectMenu()) return;
+
+      const page = interaction.values[0] as ProfilePage;
+
+      await interaction.update({
+        embeds: [await renderProfilePage(page, ctx)],
+        components: [menuRow],
+      });
+    });
+
+    collector.on('end', async () => {
+      menuRow.components[0].setDisabled(true);
+      await reply.edit({ components: [menuRow] });
+    });
+
+    logger.success(`${ctx.username}'s profile command complete`);
   } catch (error) {
-    logger.error(message.author.username + `'s profile command failed:\n\t${(error as Error).message}`);
+    logger.error(
+      `profile command failed:\n\t${(error as Error).message}`
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 
-import { buildWagerAmountModal } from './data/buildWagerAmount.ts';
+import { buildWagerAmountModal } from '../data/buildWagerAmount.ts';
 
 export async function handleOpenWagerModal(
   interaction: ButtonInteraction

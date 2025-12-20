@@ -1,7 +1,7 @@
 import { ButtonInteraction } from 'discord.js';
 
-import { showRouletteDashboard } from './showRouletteDashboard.ts';
-import { getOrCreateSession } from './rouletteSession.ts';
+import { showRouletteDashboard } from '../showRouletteDashboard.ts';
+import { deleteSession, getOrCreateSession } from '../rouletteSession.ts';
 
 export async function handleNewRound(
   interaction: ButtonInteraction
@@ -18,7 +18,7 @@ export async function handleNewRound(
 
   const session = getOrCreateSession(ownerId);
 
-  // Ensure clean round
+  deleteSession(ownerId);
   session.bets.length = 0;
 
   await showRouletteDashboard(interaction);

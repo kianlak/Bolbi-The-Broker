@@ -1,0 +1,44 @@
+import {
+  EmbedBuilder,
+  StringSelectMenuInteraction,
+} from 'discord.js';
+
+import { buildConfirmStreetTarget } from '../data/buildConfirmStreetTarget.ts';
+
+export async function handleStreetTargetSelect(
+  interaction: StringSelectMenuInteraction
+) {
+  const [, , category, ownerId] = interaction.customId.split(':');
+
+  if (interaction.user.id !== ownerId) {
+    await interaction.reply({
+      content: '🚫 This roulette session is not yours.',
+      ephemeral: true,
+    });
+    return;
+  }
+
+  const target = interaction.values[0];
+
+  const label = target
+    .replace('S_', '')
+    .replace('_', '-');
+
+  const embed = new EmbedBuilder()
+    .setTitle('🎯 Street Selected')
+    .setAuthor({
+      name: interaction.user.tag,
+      iconURL: interaction.user.displayAvatarURL(),
+    })
+    .setDescription(
+      `You selected **${label}**.\n\nClick below to enter your wager.`
+    )
+    .setColor(0xf1c40f);
+
+  await interaction.update({
+    embeds: [embed],
+    components: [
+      buildConfirmStreetTarget(ownerId, target),
+    ],
+  });
+}

@@ -5,8 +5,8 @@ import { logger } from './shared/logger.ts';
 import { commandAliases } from './data/commandAliases.ts';
 import { defaultResponse } from './commands/defaultResponse.ts';
 import { beg } from './commands/beg/beg.ts';
-import { profile } from './commands/profile/profile.ts';
 import { casino } from './commands/casino/casino.ts';
+import { profile } from './commands/profile/profile.ts';
 
 const PREFIX = '+';
 

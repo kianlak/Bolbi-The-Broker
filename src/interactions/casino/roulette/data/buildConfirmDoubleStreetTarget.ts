@@ -4,16 +4,16 @@ import {
   ButtonStyle,
 } from 'discord.js';
 
-export function buildConfirmNumberTarget(
+export function buildConfirmDoubleStreetTarget(
   ownerId: string,
-  value: number
+  target: string
 ) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(
-        `roulette:wager-open:NUMBER:${value}:${ownerId}`
+        `roulette:wager-open:DOUBLE_STREET:${target}:${ownerId}`
       )
-      .setLabel(`💵 Enter wager for ${value === 37 ? '00' : value}`)
+      .setLabel('💰 Enter Wager')
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()

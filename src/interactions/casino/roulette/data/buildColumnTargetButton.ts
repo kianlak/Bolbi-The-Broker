@@ -4,16 +4,21 @@ import {
   ButtonStyle,
 } from 'discord.js';
 
-export function buildEvenOddTargetButtons(ownerId: string) {
+export function buildColumnTargetButtons(ownerId: string) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
-      .setCustomId(`roulette:target:EVEN_ODD:EVEN:${ownerId}`)
-      .setLabel('Even')
+      .setCustomId(`roulette:target:COLUMN:COLUMN_1:${ownerId}`)
+      .setLabel('Column 1')
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()
-      .setCustomId(`roulette:target:EVEN_ODD:ODD:${ownerId}`)
-      .setLabel('Odd')
+      .setCustomId(`roulette:target:COLUMN:COLUMN_2:${ownerId}`)
+      .setLabel('Column 2')
+      .setStyle(ButtonStyle.Primary),
+
+    new ButtonBuilder()
+      .setCustomId(`roulette:target:COLUMN:COLUMN_3:${ownerId}`)
+      .setLabel('Column 3')
       .setStyle(ButtonStyle.Primary),
 
     new ButtonBuilder()

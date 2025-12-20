@@ -1,7 +1,7 @@
 import { StringSelectMenuInteraction } from 'discord.js';
 
-import { getOrCreateSession } from './rouletteSession.ts';
-import { showRouletteDashboard } from './showRouletteDashboard.ts';
+import { getOrCreateSession } from '../rouletteSession.ts';
+import { showRouletteDashboard } from '../showRouletteDashboard.ts';
 
 export async function handleRemoveBetSelect(
   interaction: StringSelectMenuInteraction

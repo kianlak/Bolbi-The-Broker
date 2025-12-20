@@ -10,7 +10,7 @@ import { commandRouter } from './commandRouter.ts';
 import { interactionRouter } from './interactions/interactionsRouter.ts';
 import { ensureSchemas } from './database/helper/ensureSchemas.ts';
 import { closeSqliteDBConnection, connectToSqliteDB } from './database/sqlite.ts';
-import { UserService } from './helper/services/UserService/userService.ts';
+import { ensureUserAndInitialize } from './helper/ensureUserAndUtilize.ts';
 
 const MAIN_CHANNEL = process.env.DISCORD_MAIN_CHANNEL_ID;
 
@@ -36,10 +36,8 @@ client.once('ready', async () => {
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
   
-  const userService = new UserService();
-
   if (ALLOWED_CHANNELS.has(message.channel.id)) {
-    userService.ensureUser(message.author.id);
+    ensureUserAndInitialize(message.author.id);
 
     await commandRouter(message);
   }

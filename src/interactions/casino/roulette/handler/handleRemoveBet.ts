@@ -1,7 +1,7 @@
 import { ButtonInteraction } from 'discord.js';
 
-import { getOrCreateSession } from './rouletteSession.ts';
-import { buildRemoveBetMenu } from './data/buildSelectRemoveBetMenu.ts';
+import { getOrCreateSession } from '../rouletteSession.ts';
+import { buildRemoveBetMenu } from '../data/buildSelectRemoveBetMenu.ts';
 
 export async function handleRemoveBet(
   interaction: ButtonInteraction

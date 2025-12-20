@@ -10,7 +10,9 @@ export const usersSchema: DatabaseSchema = {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         discord_id TEXT NOT NULL UNIQUE,
         baleh_bucks INTEGER NOT NULL DEFAULT 0,
-        last_beg_at INTEGER
+        last_beg_at INTEGER,
+        number_of_begs INTEGER NOT NULL DEFAULT 0,
+        beg_profit INTEGER NOT NULL DEFAULT 0
       );
     `);
   },

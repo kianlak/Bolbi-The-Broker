@@ -1,5 +1,6 @@
 import { isBlack, isRed } from "../data/rouletteConstants.ts";
 import type { RouletteBet } from "../rouletteSession.ts";
+import { ROULETTE_PAYOUTS } from "../types/RouletteBetCategory.ts";
 
 export type ResolvedBet = {
   bet: RouletteBet;
@@ -11,15 +12,13 @@ export function resolveBets(
   bets: RouletteBet[],
   result: number
 ): ResolvedBet[] {
-  return bets.map(bet => {
+  return bets.map((bet) => {
     let won = false;
-    let payout = 0;
 
     switch (bet.category) {
       case 'COLOR': {
         if (bet.target === 'RED' && isRed(result)) won = true;
         if (bet.target === 'BLACK' && isBlack(result)) won = true;
-        if (won) payout = bet.amount * 2;
         break;
       }
 
@@ -27,18 +26,97 @@ export function resolveBets(
         if (result === 0 || result === 37) break;
         if (bet.target === 'EVEN' && result % 2 === 0) won = true;
         if (bet.target === 'ODD' && result % 2 === 1) won = true;
-        if (won) payout = bet.amount * 2;
+        break;
+      }
+
+      case 'LOW_HIGH': {
+        if (result === 0 || result === 37) break;
+
+        if (bet.target === 'LOW' && result >= 1 && result <= 18) won = true;
+        if (bet.target === 'HIGH' && result >= 19 && result <= 36) won = true;
         break;
       }
 
       case 'NUMBER': {
-        if (Number(bet.target) === result) {
+        if (Number(bet.target) === result) won = true;
+        break;
+      }
+
+      case 'DOZEN': {
+        if (result === 0 || result === 37) break;
+
+        if (bet.target === 'DOZEN_1' && result >= 1 && result <= 12) won = true;
+        if (bet.target === 'DOZEN_2' && result >= 13 && result <= 24) won = true;
+        if (bet.target === 'DOZEN_3' && result >= 25 && result <= 36) won = true;
+        break;
+      }
+
+      case 'COLUMN': {
+        if (result === 0 || result === 37) break;
+
+        const column = result % 3 === 0 ? 3 : result % 3;
+
+        if (
+          (bet.target === 'COLUMN_1' && column === 1) ||
+          (bet.target === 'COLUMN_2' && column === 2) ||
+          (bet.target === 'COLUMN_3' && column === 3)
+        ) {
           won = true;
-          payout = bet.amount * 36;
         }
+
+        break;
+      }
+
+      case 'DOUBLE_STREET': {
+        if (result === 0 || result === 37) break;
+
+        const ranges: Record<string, [number, number]> = {
+          DS_1_6: [1, 6],
+          DS_4_9: [4, 9],
+          DS_7_12: [7, 12],
+          DS_10_15: [10, 15],
+          DS_13_18: [13, 18],
+          DS_16_21: [16, 21],
+          DS_19_24: [19, 24],
+          DS_22_27: [22, 27],
+          DS_25_30: [25, 30],
+          DS_28_33: [28, 33],
+          DS_31_36: [31, 36],
+        };
+
+        const [min, max] = ranges[bet.target as string];
+        if (result >= min && result <= max) won = true;
+        break;
+      }
+
+      case 'STREET': {
+        if (result === 0 || result === 37) break;
+
+        const ranges: Record<string, [number, number]> = {
+          S_1_6: [1, 3],
+          S_4_9: [4, 6],
+          S_7_12: [7, 9],
+          S_10_15: [10, 12],
+          S_13_18: [13, 15],
+          S_16_21: [16, 18],
+          S_19_24: [19, 21],
+          S_22_27: [22, 24],
+          S_25_30: [25, 27],
+          S_28_33: [28, 30],
+          S_31_36: [31, 33],
+          S_34_36: [34, 36],
+        };
+
+        const [min, max] = ranges[bet.target as string];
+        if (result >= min && result <= max) won = true;
         break;
       }
     }
+
+    const rule = ROULETTE_PAYOUTS[bet.category];
+    const payout = won
+      ? bet.amount * rule.returnMultiplier
+      : 0;
 
     return { bet, won, payout };
   });
