@@ -5,9 +5,14 @@ import { logger } from "../../shared/logger.ts";
 
 import { getDb } from "../../database/sqlite.ts";
 
+import type { UserContext } from "../../types/UserContext.ts";
+
 export class UserService {
-  ensureUserCreated(discordId: string): boolean {
-    logger.info(`Ensuring: User is created`);
+  ensureUserCreated(user: UserContext): boolean {
+    const discordUsername = user.username;
+    const discordId = user.id;
+
+    logger.info(`[${discordUsername}] Ensuring: User is created`);
     
     if (!discordId) throw new Error('discordId is required to ensure user');
 

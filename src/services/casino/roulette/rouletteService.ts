@@ -4,6 +4,8 @@ import { logger } from "../../../shared/logger.ts";
 
 import { getDb } from "../../../database/sqlite.ts";
 
+import type { UserContext } from "../../../types/UserContext.ts";
+
 const GAME = "ROULETTE";
 
 export type RouletteStatsDelta = {
@@ -47,8 +49,11 @@ export type RouletteStatsCounters = {
 };
 
 export class RouletteStatsService {
-  ensureRouletteStatsCreated(discordId: string): boolean {
-    logger.info('Ensuring: Creation of user\'s RouletteStats');
+  ensureRouletteStatsCreated(user: UserContext): boolean {
+    const discordUsername = user.username;
+    const discordId = user.id;
+
+    logger.info(`[${discordUsername}] Ensuring: RouletteStats for User is created`);
     
     if (!discordId) throw new Error('discordId is required to ensure roulette stats');
 
