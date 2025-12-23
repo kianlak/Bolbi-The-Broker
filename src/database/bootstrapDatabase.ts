@@ -16,5 +16,5 @@ export async function bootstrapDatabase() {
     process.exit(1);
   }
 
-  logger.success('DB ready');
+  logger.success('Database Bootstrap completed');
 }

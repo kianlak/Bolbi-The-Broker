@@ -1,12 +1,11 @@
 import Database from 'better-sqlite3';
-
-import { SQLITE_DB_NAME } from '../config/env.ts';
-
-import { logger } from '../shared/logger.ts';
+import path from 'path';
 
 import type { SqliteConfig } from './types/SqliteConfig.ts';
 
-import path from 'path';
+import { logger } from '../shared/logger.ts';
+
+import { SQLITE_DB_NAME } from '../config/env.ts';
 
 let db: Database.Database | undefined;
 
@@ -24,9 +23,7 @@ export function initSqliteDB(config: SqliteConfig): Database.Database {
 }
 
 export function getDb(): Database.Database {
-  if (!db) {
-    throw new Error('SQLite database not initialized');
-  }
+  if (!db) throw new Error('SQLite database not initialized');
 
   return db;
 }

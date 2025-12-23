@@ -14,7 +14,6 @@ export async function ensureSchemas(db: Database.Database) {
     }
 
     db.exec('COMMIT');
-    logger.success("DB Schema's ensured")
   } catch (error) {
     db.exec('ROLLBACK');
     throw error;
