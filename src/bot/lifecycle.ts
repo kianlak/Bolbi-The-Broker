@@ -1,17 +1,14 @@
-import { Client, TextChannel } from 'discord.js';
+import { Client } from 'discord.js';
+
 import { logger } from '../shared/logger.ts';
-import { BOLBI_STAND_CHANNEL } from '../config/channels.ts';
+
+import { LIFECYCLE_ANNOUNCEMENTS } from './lifecycleAnnouncements.ts';
+
 import { shutdownSqliteDB } from '../database/sqlite.ts';
+import { broadcastMessages } from './broadcast.ts';
 
 export async function onReady(client: Client) {
-  logger.success('Bot ready');
-
-  if (!BOLBI_STAND_CHANNEL) return;
-
-  const channel = await client.channels.fetch(BOLBI_STAND_CHANNEL);
-  if (channel?.isTextBased()) {
-    // await (channel as TextChannel).send('🏪 Bolbi has arrived');
-  }
+  // await broadcastMessages(client, LIFECYCLE_ANNOUNCEMENTS.ready);
 }
 
 export async function onShutdown(client: Client, signal: string) {
@@ -20,13 +17,9 @@ export async function onShutdown(client: Client, signal: string) {
   shutdownSqliteDB();
 
   try {
-    if (!BOLBI_STAND_CHANNEL) throw new Error('#🤑-bolbis-trade-post could not be found');
-    
-    const channel = await client.channels.fetch(BOLBI_STAND_CHANNEL);
-    if (channel?.isTextBased()) {
-      // await (channel as TextChannel).send('🔕 Bolbi has left');
-    }
+    // await broadcastMessages(client, LIFECYCLE_ANNOUNCEMENTS.shutdown);
   } finally {
     client.destroy();
+    logger.success('Shutdown successful');
   }
 }

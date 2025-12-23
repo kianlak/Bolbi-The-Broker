@@ -18,7 +18,7 @@ export function initSqliteDB(config: SqliteConfig): Database.Database {
   db = new Database(dbPath);
   db.prepare('SELECT 1').get(); // Ping
 
-  logger.info(`Connected to database (${SQLITE_DB_NAME})`);
+  logger.info(`Connected to DB (${SQLITE_DB_NAME})`);
   return db;
 }
 
@@ -34,5 +34,5 @@ export function shutdownSqliteDB() {
   db.close();
   db = undefined;
 
-  logger.info('Disconnected from database');
+  logger.info('Disconnected DB');
 }
