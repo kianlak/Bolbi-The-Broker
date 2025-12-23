@@ -20,6 +20,6 @@ export function buildDoubleStreetTargetMenu(ownerId: string) {
         { label: '25-30', value: 'DS_25_30' },
         { label: '28-33', value: 'DS_28_33' },
         { label: '31-36', value: 'DS_31_36' },
-      ])
+    ])
   );
 }

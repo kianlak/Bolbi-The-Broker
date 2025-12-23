@@ -7,6 +7,10 @@ export const RouletteBetCategory = {
   COLUMN: 'COLUMN',
   DOUBLE_STREET: 'DOUBLE_STREET',
   STREET: 'STREET',
+  TOP_LINE: 'TOP_LINE',
+  ROW: 'ROW',
+  SPLIT: 'SPLIT',
+  CORNER: 'CORNER',
 } as const;
 
 export type RouletteBetCategory =
@@ -22,6 +26,10 @@ export const ROULETTE_PAYOUTS: Record<
   DOZEN: { returnMultiplier: 3 },
   COLUMN: { returnMultiplier: 3 },
   DOUBLE_STREET: { returnMultiplier: 6 },
+  TOP_LINE: { returnMultiplier: 7},
+  CORNER: { returnMultiplier: 9 },
   STREET: { returnMultiplier: 12 },
+  ROW: { returnMultiplier: 18 },
+  SPLIT: { returnMultiplier: 18 },
   NUMBER: { returnMultiplier: 36 },
 };

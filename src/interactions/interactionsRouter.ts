@@ -2,10 +2,7 @@ import type { Interaction } from 'discord.js';
 import { casinoInteractionRouter } from './casino/casinoRouter.ts';
 import { rouletteInteractionRouter } from './casino/roulette/rouletteRouter.ts';
 
-const DOMAIN_ROUTERS: Record<
-  string,
-  (interaction: Interaction) => Promise<void>
-> = {
+const DOMAIN_ROUTERS: Record<string, (interaction: Interaction) => Promise<void>> = {
   casino: casinoInteractionRouter,
   roulette: rouletteInteractionRouter,
 };

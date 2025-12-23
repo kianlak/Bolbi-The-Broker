@@ -1,3 +1,3 @@
-import { Logger } from "../data/logger/Logger.ts";
+import { Logger } from "./logger/LoggerClass.ts";
 
 export const logger = new Logger();

@@ -1,33 +1,41 @@
 import Database from 'better-sqlite3';
-import path from 'path';
+
+import { SQLITE_DB_NAME } from '../config/env.ts';
 
 import { logger } from '../shared/logger.ts';
 
-let db: Database.Database | null = null;
+import type { SqliteConfig } from './types/SqliteConfig.ts';
 
-export function connectToSqliteDB(): Database.Database {
+import path from 'path';
+
+let db: Database.Database | undefined;
+
+export function initSqliteDB(config: SqliteConfig): Database.Database {
   if (db) return db;
 
-  const dbPath = path.resolve('src', 'database', `${process.env.SQLITE_DB_NAME}`);
+  const basePath = config.basePath ?? path.resolve('src', 'database');
+  const dbPath = path.join(basePath, config.filename);
 
   db = new Database(dbPath);
-  db.prepare('SELECT 1').get();
+  db.prepare('SELECT 1').get(); // Ping
 
-  logger.success('Connected to database');
+  logger.info(`Connected to database (${SQLITE_DB_NAME})`);
   return db;
 }
 
 export function getDb(): Database.Database {
-  if (!db) throw new Error('Database is not initialized');
+  if (!db) {
+    throw new Error('SQLite database not initialized');
+  }
 
   return db;
 }
 
-export function closeSqliteDBConnection() {
+export function shutdownSqliteDB() {
   if (!db) return;
 
   db.close();
-  db = null;
+  db = undefined;
 
-  logger.success('Disconnected from database');
+  logger.info('Disconnected from database');
 }

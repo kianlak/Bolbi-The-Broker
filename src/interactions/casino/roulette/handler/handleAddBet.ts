@@ -11,6 +11,9 @@ import { buildDozenTargetButtons } from '../data/buildDozenTargetButton.ts';
 import { buildColumnTargetButtons } from '../data/buildColumnTargetButton.ts';
 import { buildDoubleStreetTargetMenu } from '../data/buildDoubleStreetTargetMenu.ts';
 import { buildStreetTargetMenu } from '../data/buildStreetTargetMenu.ts';
+import { buildWagerAmountModal } from '../data/buildWagerAmount.ts';
+import { buildCornerTargetMenu } from '../data/buildCornerTargetMenu.ts';
+import { buildSplitFirstNumberModal } from '../data/buildSplitFirstModal.ts';
 
 
 export async function handleAddBet(
@@ -33,6 +36,7 @@ export async function handleAddBet(
       return interaction.update({
         embeds: [embed],
         components: [buildColorTargetButtons(ownerId)],
+        files: [],
       });
 
     case 'EVEN_ODD':
@@ -70,11 +74,44 @@ export async function handleAddBet(
         components: [buildDoubleStreetTargetMenu(ownerId)],
       });
 
+    case 'CORNER':
+      return interaction.update({
+        embeds: [embed],
+        components: [buildCornerTargetMenu(ownerId)],
+      });
+
     case 'STREET':
       return interaction.update({
         embeds: [embed],
         components: [buildStreetTargetMenu(ownerId)],
       });
+
+    case 'SPLIT':
+      await interaction.showModal(
+        buildSplitFirstNumberModal(ownerId)
+      );
+
+    case 'TOP_LINE':
+      await interaction.showModal(
+        buildWagerAmountModal(
+          ownerId,
+          RouletteBetCategory.TOP_LINE,
+          'ALL'
+        )
+      );
+      
+      return;
+    
+    case 'ROW':
+      await interaction.showModal(
+        buildWagerAmountModal(
+          ownerId,
+          RouletteBetCategory.ROW,
+          'ALL'
+        )
+      );
+      
+      return;
 
     default:
       return;

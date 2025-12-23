@@ -122,14 +122,27 @@ for (const r of resolved) {
 const winsByResultNumber: Record<number, number> = {};
 const lossesByResultNumber: Record<number, number> = {};
 
+let hasWin = false;
+let hasLoss = false;
+
 for (const r of resolved) {
   if (r.won) {
-    winsByResultNumber[result] =
-      (winsByResultNumber[result] ?? 0) + 1;
+    hasWin = true;
   } else {
-    lossesByResultNumber[result] =
-      (lossesByResultNumber[result] ?? 0) + 1;
+    hasLoss = true;
   }
+
+  if (hasWin && hasLoss) break;
+}
+
+if (hasWin) {
+  winsByResultNumber[result] =
+    (winsByResultNumber[result] ?? 0) + 1;
+}
+
+if (hasLoss) {
+  lossesByResultNumber[result] =
+    (lossesByResultNumber[result] ?? 0) + 1;
 }
 
   // --------------------------------------------------

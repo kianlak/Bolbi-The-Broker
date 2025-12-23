@@ -4,6 +4,8 @@ export type RouletteLowHighTarget = 'LOW' | 'HIGH';
 export type RouletteDozenTarget = 'DOZEN_1' | 'DOZEN_2' | 'DOZEN_3';
 export type RouletteColumnTarget = 'COLUMN_1' | 'COLUMN_2' | 'COLUMN_3';
 export type RouletteNumberTarget = number;
+export type RouletteTopLineTarget = number;
+export type RouletteRowTarget = number;
 export type RouletteDoubleStreetTarget =
   | 'DS_1_6'
   | 'DS_4_9'
@@ -30,6 +32,30 @@ export type RouletteStreetTarget =
   | 'S_31_33'
   | 'S_34_36';
 
+export type RouletteCornerTarget =
+  | 'C_1_5'
+  | 'C_2_6'
+  | 'C_4_8'
+  | 'C_5_9'
+  | 'C_7_11'
+  | 'C_8_12'
+  | 'C_10_14'
+  | 'C_11_15'
+  | 'C_13_17'
+  | 'C_14_18'
+  | 'C_16_20'
+  | 'C_17_21'
+  | 'C_19_23'
+  | 'C_20_24'
+  | 'C_22_26'
+  | 'C_23_27'
+  | 'C_25_29'
+  | 'C_26_30'
+  | 'C_28_32'
+  | 'C_29_33'
+  | 'C_31_35'
+  | 'C_32_36';
+
 export type RouletteBetTarget =
   | RouletteColorTarget
   | RouletteEvenOddTarget
@@ -37,4 +63,7 @@ export type RouletteBetTarget =
   | RouletteLowHighTarget
   | RouletteDozenTarget
   | RouletteColumnTarget
-  | RouletteDoubleStreetTarget;
+  | RouletteDoubleStreetTarget
+  | RouletteStreetTarget
+  | RouletteTopLineTarget
+  | RouletteRowTarget;

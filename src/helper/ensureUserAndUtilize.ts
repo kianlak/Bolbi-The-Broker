@@ -7,7 +7,7 @@ export function ensureUserAndInitialize(discordId: string) {
 
   const isNewUser = userService.ensureUser(discordId);
 
-  // if (!isNewUser) return;
+  if (!isNewUser) return;
 
   rouletteStatsService.ensureRouletteStat(discordId);
 }

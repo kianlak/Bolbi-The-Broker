@@ -12,10 +12,11 @@ import { handleExit } from './handler/handleExit.ts';
 import { handleRouletteWagerSubmit } from './handler/handleRouletteWagerSubmit.ts';
 import { handleDoubleStreetTargetSelect } from './handler/handleDoubleStreetTargetSelect.ts';
 import { handleStreetTargetSelect } from './handler/handleStreetTargetSelect.ts';
+import { handleCornerTargetSelect } from './handler/handleCornerTargetSelect.ts';
+import { handleSplitFirstInput } from './handler/handleSplitFirstInput.ts';
+import { handleSplitSecondSelect } from './handler/handleSplitSecondSelect.ts';
 
-export async function rouletteInteractionRouter(
-  interaction: Interaction
-) {
+export async function rouletteInteractionRouter(interaction: Interaction) {
   if (!interaction.isMessageComponent() && !interaction.isModalSubmit()) {
     return;
   }
@@ -48,6 +49,21 @@ export async function rouletteInteractionRouter(
       }
       else if (interaction.isStringSelectMenu() && category === 'STREET') {
         await handleStreetTargetSelect(interaction);
+      }
+      else if (interaction.isStringSelectMenu() && category === 'CORNER') {
+        await handleCornerTargetSelect(interaction);
+      }
+      return;
+
+    case 'split-first':
+      if (interaction.isModalSubmit()) {
+        await handleSplitFirstInput(interaction);
+      }
+      return;
+
+    case 'split-second':
+      if (interaction.isButton()) {
+        await handleSplitSecondSelect(interaction);
       }
       return;
 

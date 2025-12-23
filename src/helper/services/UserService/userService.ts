@@ -1,5 +1,5 @@
 import { USER_QUERIES } from "./queries.ts";
-import { BEG_COOLDOWN_MS } from "../../../data/constants.ts";
+import { BEG_COOLDOWN_MS } from "../../../data/constants/constants.ts";
 
 import { getDb } from "../../../database/sqlite.ts";
 

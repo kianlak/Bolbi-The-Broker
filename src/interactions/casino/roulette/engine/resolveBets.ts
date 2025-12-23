@@ -8,6 +8,31 @@ export type ResolvedBet = {
   payout: number;
 };
 
+const CORNER_MAP: Record<string, number[]> = {
+  C_1_5: [1, 2, 4, 5],
+  C_2_6: [2, 3, 5, 6],
+  C_4_8: [4, 5, 7, 8],
+  C_5_9: [5, 6, 8, 9],
+  C_7_11: [7, 8, 10, 11],
+  C_8_12: [8, 9, 11, 12],
+  C_10_14: [10, 11, 13, 14],
+  C_11_15: [11, 12, 14, 15],
+  C_13_17: [13, 14, 16, 17],
+  C_14_18: [14, 15, 17, 18],
+  C_16_20: [16, 17, 19, 20],
+  C_17_21: [17, 18, 20, 21],
+  C_19_23: [19, 20, 22, 23],
+  C_20_24: [20, 21, 23, 24],
+  C_22_26: [22, 23, 25, 26],
+  C_23_27: [23, 24, 26, 27],
+  C_25_29: [25, 26, 28, 29],
+  C_26_30: [26, 27, 29, 30],
+  C_28_32: [28, 29, 31, 32],
+  C_29_33: [29, 30, 32, 33],
+  C_31_35: [31, 32, 34, 35],
+  C_32_36: [32, 33, 35, 36],
+};
+
 export function resolveBets(
   bets: RouletteBet[],
   result: number
@@ -109,6 +134,34 @@ export function resolveBets(
 
         const [min, max] = ranges[bet.target as string];
         if (result >= min && result <= max) won = true;
+        break;
+      }
+
+      case 'TOP_LINE': {
+        if ([0, 1, 2, 3, 37].includes(result)) won = true;
+        break;
+      }
+
+      case 'ROW': {
+        if ([0, 37].includes(result)) won = true;
+        break;
+      }
+
+      case 'CORNER': {
+        const numbers = CORNER_MAP[bet.target as string];
+        if (!numbers) break;
+
+        if (numbers.includes(result)) {
+          won = true;
+        }
+        break;
+      }
+
+      case 'SPLIT': {
+        const [, a, b] = String(bet.target).split('_');
+        if (result === Number(a) || result === Number(b)) {
+          won = true;
+        }
         break;
       }
     }
