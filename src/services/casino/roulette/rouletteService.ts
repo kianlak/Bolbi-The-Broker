@@ -1,4 +1,8 @@
-import { getDb } from "../../../../database/sqlite.ts";
+import { ROULETTE_STATS_QUERIES } from "./queries.ts";
+
+import { logger } from "../../../shared/logger.ts";
+
+import { getDb } from "../../../database/sqlite.ts";
 
 const GAME = "ROULETTE";
 
@@ -43,14 +47,15 @@ export type RouletteStatsCounters = {
 };
 
 export class RouletteStatsService {
-  ensureRouletteStat(discordId: string) {
-    const db = getDb();
+  createUserRouletteStats(discordId: string): boolean {
+    logger.info('Ensuring: Creation of user\'s RouletteStats');
+    
+    if (!discordId) throw new Error('discordId is required to ensure roulette stats');
 
-    db.prepare(`
-      INSERT INTO roulette_stats (discord_id)
-      VALUES (?)
-      ON CONFLICT(discord_id) DO NOTHING
-    `).run(discordId);
+    const db = getDb();
+    const result = db.prepare(ROULETTE_STATS_QUERIES.createUserRouletteStats).run(discordId);
+
+    return !!result;
   }
   
   getSummaryByDiscordId(discordId: string): RouletteStatsSummary | null {

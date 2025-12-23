@@ -1,5 +1,5 @@
 import { ModalSubmitInteraction } from 'discord.js';
-import { UserService } from '../../../../helper/services/UserService/userService.ts';
+import { UserService } from '../../../../services/user/userService.ts';
 import { getOrCreateSession } from '../rouletteSession.ts';
 import { showRouletteDashboard } from '../showRouletteDashboard.ts';
 
@@ -53,7 +53,7 @@ export async function handleRouletteWagerSubmit(
   }
 
   // 💰 Balance lookup
-  userService.ensureUser(ownerId);
+  userService.ensureUserCreated(ownerId);
   const balance = userService.getBalanceByDiscordId(ownerId);
 
   // 🎯 Session + committed bets

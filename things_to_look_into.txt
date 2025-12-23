@@ -1,7 +1,10 @@
 To Do:
 SERVICES,
-index (Base coverage)
+commands,
+casino,
+extra files
 
 Completed: 
 Database,
 Logger,
+index (Base coverage)

@@ -1,15 +1,20 @@
 import { USER_QUERIES } from "./queries.ts";
-import { BEG_COOLDOWN_MS } from "../../../data/constants/constants.ts";
+import { BEG_COOLDOWN_MS } from "../../data/constants/constants.ts";
 
-import { getDb } from "../../../database/sqlite.ts";
+import { logger } from "../../shared/logger.ts";
+
+import { getDb } from "../../database/sqlite.ts";
 
 export class UserService {
-  ensureUser(discordId: string) {
-    const db = getDb();
+  ensureUserCreated(discordId: string): boolean {
+    logger.info('Ensuring: User is created');
+    
+    if (!discordId) throw new Error('discordId is required to ensure user');
 
+    const db = getDb();
     const result = db.prepare(USER_QUERIES.ensureUser).run(discordId);
 
-    return result.changes === 1;
+    return !!result;
   }
 
   canBeg(discordId: string): { allowed: boolean; remainingMs: number } {

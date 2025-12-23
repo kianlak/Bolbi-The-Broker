@@ -1,8 +1,8 @@
 export const ROULETTE_STATS_QUERIES = {
-  ensureRouletteStats: `
+  createUserRouletteStats: `
     INSERT INTO roulette_stats (discord_id)
     VALUES (?)
-    ON CONFLICT(discord_id) DO NOTHING;
+    ON CONFLICT(discord_id) DO NOTHING
   `,
 
   getRouletteStatsByDiscordId: `

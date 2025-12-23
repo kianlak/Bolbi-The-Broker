@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 
 import { logger } from '../../shared/logger.ts';
 
-import { UserService } from '../../helper/services/UserService/userService.ts';
+import { UserService } from '../../services/user/userService.ts';
 import { randomMessagePrompt } from '../../helper/randomMessagePrompt.ts';
 import { begPrompts } from '../../data/prompts/begPrompts.ts';
 import { getDb } from '../../database/sqlite.ts';

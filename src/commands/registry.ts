@@ -1,8 +1,9 @@
+import { CASINO_CHANNEL_ID } from '../data/constants/constants.ts';
 
 import { beg } from '../commandsOLD/beg/beg.ts';
 import { casino } from '../commandsOLD/casino/casino.ts';
 import { profile } from '../commandsOLD/profile/profile.ts';
-import { CASINO_CHANNEL_ID } from '../data/constants/constants.ts';
+
 import type { CommandDefinition } from './types.ts';
 
 export const COMMANDS: Record<string, CommandDefinition> = {

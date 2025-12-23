@@ -1,5 +1,5 @@
-import { RouletteStatsService } from "../../helper/services/CasinoService/RouletteStatsService/rouletteService.ts";
-import { UserService } from "../../helper/services/UserService/userService.ts";
+import { RouletteStatsService } from "../../services/casino/roulette/rouletteService.ts";
+import { UserService } from "../../services/user/userService.ts";
 import { renderMainProfileEmbed } from "./data/renderMainProfileEmbed.ts";
 import { renderRouletteProfileEmbed } from "./data/renderRouletteProfileEmbed.ts";
 import type { ProfileContext } from "./types/ProfileContext.ts";

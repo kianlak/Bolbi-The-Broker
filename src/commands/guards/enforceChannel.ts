@@ -1,4 +1,5 @@
 import { Message } from 'discord.js';
+
 import { logger } from '../../shared/logger.ts';
 
 export async function enforceChannel(

@@ -1,8 +1,11 @@
 import { Message } from 'discord.js';
+
+import { COMMANDS } from './registry.ts';
+
+import { logger } from '../shared/logger.ts';
+
 import { parseCommand } from './parseCommand.ts';
 import { commandAliases } from '../data/commandAliases.ts';
-import { COMMANDS } from './registry.ts';
-import { logger } from '../shared/logger.ts';
 import { defaultResponse } from '../commandsOLD/defaultResponse.ts';
 import { enforceChannel } from './guards/enforceChannel.ts';
 import { enforceArgs } from './guards/enforceArgs.ts';

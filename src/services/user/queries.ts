@@ -2,7 +2,8 @@ export const USER_QUERIES = {
   ensureUser: `
     INSERT INTO users (discord_id)
     VALUES (?)
-    ON CONFLICT(discord_id) DO NOTHING;
+    ON CONFLICT(discord_id) DO NOTHING
+    RETURNING discord_id;
   `,
 
   getUserByDiscordId: `
