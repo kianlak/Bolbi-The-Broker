@@ -13,6 +13,7 @@ export async function interactionRouter(interaction: Interaction) {
   const [domain] = interaction.customId.split(':');
   const router = DOMAIN_ROUTERS[domain];
 
+  
   if (!router) return;
 
   await router(interaction);

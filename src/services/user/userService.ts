@@ -7,7 +7,7 @@ import { getDb } from "../../database/sqlite.ts";
 
 export class UserService {
   ensureUserCreated(discordId: string): boolean {
-    logger.info('Ensuring: User is created');
+    logger.info(`Ensuring: User is created`);
     
     if (!discordId) throw new Error('discordId is required to ensure user');
 

@@ -10,7 +10,7 @@ import { defaultResponse } from '../commandsOLD/defaultResponse.ts';
 import { enforceChannel } from './guards/enforceChannel.ts';
 import { enforceArgs } from './guards/enforceArgs.ts';
 
-export async function commandRouter(message: Message) {
+export async function commandRouter(message: Message) {  
   const parsed = parseCommand(message.content);
   if (!parsed) return;
 

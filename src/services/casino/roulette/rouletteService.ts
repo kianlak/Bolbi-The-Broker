@@ -47,7 +47,7 @@ export type RouletteStatsCounters = {
 };
 
 export class RouletteStatsService {
-  createUserRouletteStats(discordId: string): boolean {
+  ensureRouletteStatsCreated(discordId: string): boolean {
     logger.info('Ensuring: Creation of user\'s RouletteStats');
     
     if (!discordId) throw new Error('discordId is required to ensure roulette stats');

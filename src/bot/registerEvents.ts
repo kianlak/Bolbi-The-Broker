@@ -2,8 +2,9 @@ import { Client } from 'discord.js';
 
 import { interactionRouter } from '../interactions/interactionsRouter.ts';
 import { handleMessageCommandEntry } from '../app/messageCommandEntry.ts';
+import { handleInteractionCommandEntry } from '../app/handleInteractionCommandEntry.ts';
 
 export function registerEvents(client: Client) {
   client.on('messageCreate', handleMessageCommandEntry);
-  client.on('interactionCreate', interactionRouter);
+  client.on('interactionCreate', handleInteractionCommandEntry);
 }
