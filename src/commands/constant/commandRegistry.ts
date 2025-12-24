@@ -10,6 +10,7 @@ export const COMMAND_INFO: Record<string, CommandInfo> = {
   beg: {
     execute: beg,
     usage: '+beg',
+    description: 'Beg in different locations to earn anywhere from 0-100 Baleh Bucks (2hr cooldown)'
   },
 
   profile: {

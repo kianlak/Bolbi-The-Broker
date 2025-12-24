@@ -3,16 +3,17 @@ import { Message } from 'discord.js';
 import { logger } from '../../shared/logger.ts';
 
 import { UserService } from '../../services/user/userService.ts';
-import { randomMessagePrompt } from '../../helper/randomMessagePrompt.ts';
+import { selectRandomPrompt } from '../../commands/helper/randomMessagePrompt.ts';
 import { begPrompts } from '../../data/prompts/begPrompts.ts';
 import { getDb } from '../../database/sqlite.ts';
 import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
 import { tokenize } from '../../helper/tokenizeCommand.ts';
+
 import type { CommandContext } from '../../commands/types/types.ts';
 
 const userService = new UserService();
 
-export async function beg({ message, args }: CommandContext) {
+export async function beg({ message }: CommandContext) {
   // const tokenizedComand = tokenize(message.content);
 
   try {
@@ -31,7 +32,7 @@ export async function beg({ message, args }: CommandContext) {
   
     const newBalance = userService.getBalanceByDiscordId(userDiscordId);
   
-    const prompt = randomMessagePrompt(begPrompts);
+    const prompt = selectRandomPrompt(begPrompts);
   
     await message.reply(
       `*${prompt}*\n` +

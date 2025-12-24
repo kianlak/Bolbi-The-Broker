@@ -2,7 +2,7 @@ import type { Message } from 'discord.js';
 
 export type CommandContext = {
   message: Message;
-  args: string[];
+  args?: string[];
   raw: string;
 };
 

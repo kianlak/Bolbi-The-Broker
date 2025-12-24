@@ -6,7 +6,7 @@ export async function enforceArgs(
   maxArgs?: number,
   usage?: string
 ): Promise<boolean> {
-  const argCount = commandContext.args.length;
+  const argCount = commandContext.args?.length ?? 0;
 
   if (minArgs !== undefined && argCount < minArgs) {
     await commandContext.message.reply(

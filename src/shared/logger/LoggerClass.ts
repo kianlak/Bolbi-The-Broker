@@ -26,7 +26,9 @@ export class Logger {
     }
 
     console.log(
-      `${color}${emoji} [${type}] ${timestamp} — ${message}${metaText}${this.reset}`
+      type === 'SUCCESS' ? 
+      `${color}${emoji} [${type}]   ${timestamp} — ${message}${metaText}${this.reset}` : 
+      `${color}${emoji} [${type}]\t${timestamp} — ${message}${metaText}${this.reset}`
     );
   }
 
