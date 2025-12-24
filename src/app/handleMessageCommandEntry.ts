@@ -8,6 +8,7 @@ import { userContextFromMessage } from './userContextAdapters.ts';
 
 export async function handleMessageCommandEntry(message: Message) {
   if (message.author.bot) return;
+  if (!message.content.startsWith('+')) return;
   if (!VALID_CHANNEL_IDS.has(message.channelId)) return;
   
   userBootstrap(userContextFromMessage(message));

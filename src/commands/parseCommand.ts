@@ -1,4 +1,4 @@
-const PREFIX = '+';
+const COMMAND_PREFIX = '+';
 
 export type ParsedCommand = {
   command: string;
@@ -7,16 +7,23 @@ export type ParsedCommand = {
 };
 
 export function parseCommand(input: string): ParsedCommand | null {
-  if (!input.startsWith(PREFIX)) return null;
+  if (!input.startsWith(COMMAND_PREFIX)) return null;
 
-  const tokens = input.slice(PREFIX.length).trim().split(/\s+/);
-  if (tokens.length === 0) return null;
+  if (input.length === 1 || /\s/.test(input[1])) {
+    return null;
+  }
+
+  const tokens = input
+    .slice(COMMAND_PREFIX.length)
+    .split(/\s+/);
 
   const [command, ...args] = tokens;
 
+  if (!command) return null;
+
   return {
-    command,
-    args,
+    command: command.toLowerCase(),
+    args: args,
     raw: input,
   };
 }

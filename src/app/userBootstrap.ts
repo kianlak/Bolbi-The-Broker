@@ -1,3 +1,5 @@
+import { logger } from '../shared/logger.ts';
+
 import { RouletteStatsService } from '../services/casino/roulette/rouletteService.ts';
 import { UserService } from '../services/user/userService.ts';
 
@@ -7,11 +9,15 @@ const userService = new UserService();
 const rouletteStatsService = new RouletteStatsService();
 
 export function userBootstrap(user: UserContext) {
-  if (!user.username) return;
+  try {
+    if (!user.username) return;
 
-  const created = userService.ensureUserCreated(user);
-  
-  if (!created) return;
+    const created = userService.ensureUserCreated(user);
+    
+    if (!created) return;
 
-  rouletteStatsService.ensureRouletteStatsCreated(user);
+    rouletteStatsService.ensureRouletteStatsCreated(user);
+  } catch (error) {
+    logger.error(`[${user.username}]`, error);
+  }
 }

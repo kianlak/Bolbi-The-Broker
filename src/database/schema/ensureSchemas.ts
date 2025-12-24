@@ -9,7 +9,7 @@ export async function ensureSchemas(db: Database.Database) {
 
   try {
     for (const schema of schemaRegistry) {
-      logger.info(`Ensuring schema: ${schema.name}`);
+      logger.info(`[BOT] Ensuring schema: ${schema.name}`);
       schema.ensure(db);
     }
 

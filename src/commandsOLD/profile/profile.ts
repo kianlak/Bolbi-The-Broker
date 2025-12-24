@@ -4,7 +4,7 @@ import { buildProfileContext } from './data/buildProfileContext.ts';
 import { buildProfileMenu } from './data/buildProfileMenu.ts';
 import { renderProfilePage } from './profileRouter.ts';
 import type { ProfilePage } from './types/ProfilePage.ts';
-import type { CommandContext } from '../../commands/types.ts';
+import type { CommandContext } from '../../commands/types/types.ts';
 
 
 

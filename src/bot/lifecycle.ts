@@ -12,7 +12,7 @@ export async function onReady(client: Client) {
 }
 
 export async function onShutdown(client: Client, signal: string) {
-  logger.info(`Shutdown started (${signal})`);
+  logger.info(`[BOT] Shutdown started (${signal})`);
 
   shutdownSqliteDB();
 
@@ -20,6 +20,6 @@ export async function onShutdown(client: Client, signal: string) {
     // await broadcastMessages(client, LIFECYCLE_ANNOUNCEMENTS.shutdown);
   } finally {
     client.destroy();
-    logger.success('Shutdown successful');
+    logger.success('[BOT] Shutdown successful');
   }
 }

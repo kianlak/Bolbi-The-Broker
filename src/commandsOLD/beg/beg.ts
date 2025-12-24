@@ -8,7 +8,7 @@ import { begPrompts } from '../../data/prompts/begPrompts.ts';
 import { getDb } from '../../database/sqlite.ts';
 import { milisecondsToMinutes } from '../../helper/milisecondsToMinutes.ts';
 import { tokenize } from '../../helper/tokenizeCommand.ts';
-import type { CommandContext } from '../../commands/types.ts';
+import type { CommandContext } from '../../commands/types/types.ts';
 
 const userService = new UserService();
 

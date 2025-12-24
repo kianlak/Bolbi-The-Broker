@@ -15,7 +15,7 @@ export async function broadcastMessages(
       const channelId = VALID_CHANNELS[channel];
 
       if (!channelId) {
-        logger.warn(`Channel ${channel} is not configured, skipping`);
+        logger.warn(`[BOT] Channel ${channel} is not configured, skipping`);
         return null;
       }
 
@@ -28,7 +28,7 @@ export async function broadcastMessages(
             await outgoingChannel.send({ embeds: [embed], files });
           }
         } catch (error) {
-          logger.error(`Failed to send to channel ${channel} with `, error);
+          logger.error(`[BOT] Failed to send to channel ${channel} with `, error);
         }
       })();
     })

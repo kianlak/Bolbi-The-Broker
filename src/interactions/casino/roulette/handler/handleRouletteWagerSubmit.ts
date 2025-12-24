@@ -53,8 +53,13 @@ export async function handleRouletteWagerSubmit(
   }
 
   // 💰 Balance lookup
-  userService.ensureUserCreated(ownerId);
-  const balance = userService.getBalanceByDiscordId(ownerId);
+  const userCtx = {
+    id: interaction.user.id,
+    username: interaction.user.username,
+  };
+
+  userService.ensureUserCreated(userCtx);
+  const balance = userService.getBalanceByDiscordId(userCtx.id);
 
   // 🎯 Session + committed bets
   const session = getOrCreateSession(ownerId);

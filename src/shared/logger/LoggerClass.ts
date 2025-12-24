@@ -7,7 +7,7 @@ export class Logger {
   private readonly styles: Readonly<Record<LogType, LogTypeData>> = {
     INFO:    { color: '\x1b[36m', emoji: 'ℹ️ ' },  // Space needed for console spacing to be aligned
     SUCCESS: { color: '\x1b[32m', emoji: '✅' },
-    WARN:    { color: '\x1b[33m', emoji: '⚠️' },
+    WARN:    { color: '\x1b[33m', emoji: '⚠️ ' },  // Space needed for console spacing to be aligned
     ERROR:   { color: '\x1b[31m', emoji: '❌' },
   };
 

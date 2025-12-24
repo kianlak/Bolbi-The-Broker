@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import type { Message } from 'discord.js';
 
 export type CommandContext = {
   message: Message;
@@ -6,10 +6,12 @@ export type CommandContext = {
   raw: string;
 };
 
-export type CommandDefinition = {
-  execute: (ctx: CommandContext) => Promise<unknown>;
+export type CommandInfo = {
+  execute: (commandContext: CommandContext) => Promise<unknown>;
+
   allowedChannelId?: string;
   minArgs?: number;
   maxArgs?: number;
   usage?: string;
+  description?: string;
 };

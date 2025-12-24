@@ -1,53 +1,38 @@
-import { Message } from 'discord.js';
+import type { Message } from 'discord.js';
 
-import { COMMANDS } from './registry.ts';
+import { COMMAND_INFO } from './constant/commandRegistry.ts';
 
 import { logger } from '../shared/logger.ts';
 
 import { parseCommand } from './parseCommand.ts';
-import { commandAliases } from '../data/commandAliases.ts';
-import { defaultResponse } from '../commandsOLD/defaultResponse.ts';
-import { enforceChannel } from './guards/enforceChannel.ts';
-import { enforceArgs } from './guards/enforceArgs.ts';
+import { commandAliases } from './constant/commandAliases.ts';
+import { defaultResponse } from './commandOptions/defaultResponse/defaultResponse.ts';
+import { buildCommandContext } from './buildCommandContext.ts';
+import { runGuards } from './guards/runGuards.ts';
 
-export async function commandRouter(message: Message) {  
+export async function commandRouter(message: Message) {
   const parsed = parseCommand(message.content);
   if (!parsed) return;
 
-  const commandName =
-    commandAliases[parsed.command] ?? parsed.command;
-
-  const definition = COMMANDS[commandName];
+  const commandName = commandAliases[parsed.command] ?? parsed.command;
+  const commandInfo = COMMAND_INFO[commandName];
 
   logger.info(
-    `${message.author.username} requested "${commandName}" with args: ${parsed.args.join(' ')}`
+    `[${message.author.username}] Requested command "${commandName}"` +
+      (parsed.args.length ? ` with args: ${parsed.args.join(' ')}` : '')
   );
 
-  if (!definition) {
-    return defaultResponse(message);
+  if (commandName === "") logger.info(`[${message.author.username}] Ignoring request`);
+  
+  if (!commandInfo) {
+    logger.warn(`[${message.author.username}] Command "${commandName}" seems to be missing metadata, routing to command "defaultResponse"`);
+    await defaultResponse(message);
+    return;
   }
 
-  const ctx = {
-    message,
-    args: parsed.args,
-    raw: parsed.raw,
-  };
+  const commandContext = buildCommandContext(message, parsed);
 
-  // Channel guard
-  const channelAllowed = await enforceChannel(
-    message,
-    definition.allowedChannelId
-  );
-  if (!channelAllowed) return;
+  if (!(await runGuards(commandContext, commandInfo))) return;
 
-  // Argument guard
-  const argsAllowed = await enforceArgs(
-    ctx,
-    definition.minArgs,
-    definition.maxArgs,
-    definition.usage
-  );
-  if (!argsAllowed) return;
-
-  return definition.execute(ctx);
+  await commandInfo.execute(commandContext);
 }

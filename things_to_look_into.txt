@@ -2,9 +2,11 @@ To Do:
 SERVICES,
 commands,
 casino,
-extra files
+extra files,
+move profile to interaction
 
 Completed: 
 Database,
 Logger,
-index (Base coverage)
+index (Base coverage),
+user bootstrap,

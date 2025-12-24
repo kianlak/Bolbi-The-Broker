@@ -1,28 +1,30 @@
-import type { CommandContext } from '../types.ts';
+import type { CommandContext } from '../types/types.ts';
 
 export async function enforceArgs(
-  ctx: CommandContext,
+  commandContext: CommandContext,
   minArgs?: number,
   maxArgs?: number,
   usage?: string
 ): Promise<boolean> {
-  const argCount = ctx.args.length;
+  const argCount = commandContext.args.length;
 
   if (minArgs !== undefined && argCount < minArgs) {
-    await ctx.message.reply(
+    await commandContext.message.reply(
       usage
-        ? `❌ Not enough arguments.\nUsage: \`${usage}\``
-        : '❌ Not enough arguments.'
+        ? `❌ Not enough arguments\nUsage: \`${usage}\``
+        : '❌ Not enough arguments'
     );
+
     return false;
   }
 
   if (maxArgs !== undefined && argCount > maxArgs) {
-    await ctx.message.reply(
+    await commandContext.message.reply(
       usage
-        ? `❌ Too many arguments.\nUsage: \`${usage}\``
-        : '❌ Too many arguments.'
+        ? `❌ Too many arguments\nUsage: \`${usage}\``
+        : '❌ Too many arguments'
     );
+
     return false;
   }
 
