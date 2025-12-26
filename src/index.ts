@@ -8,9 +8,10 @@ import { bootstrapDatabase } from './database/bootstrapDatabase.ts';
 import { onReady, onShutdown } from './bot/lifecycle.ts';
 
 const client = createClient();
-client.login(DISCORD_BOT_TOKEN);
 
 registerEvents(client);
+
+await client.login(DISCORD_BOT_TOKEN);
 
 client.once('clientReady', async () => {
   await bootstrapDatabase();

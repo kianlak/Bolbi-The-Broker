@@ -1,13 +1,21 @@
 import { USER_QUERIES } from "./queries.ts";
-import { BEG_COOLDOWN_MS } from "../../data/constants/constants.ts";
+import { BEG_COOLDOWN_MS } from "../../commands/commandOptions/beg/constants/begConstants.ts";
 
 import { logger } from "../../shared/logger.ts";
 
 import { getDb } from "../../database/sqlite.ts";
+import { UserRepository } from "./userRepository.ts";
 
 import type { UserContext } from "../../types/UserContext.ts";
+import type { BegPermission } from "./types/begPermission.ts";
 
 export class UserService {
+  private readonly repo: UserRepository;
+
+  constructor(repo?: UserRepository) {
+    this.repo = repo ?? new UserRepository();
+  }
+
   ensureUserCreated(user: UserContext): boolean {
     const discordUsername = user.username;
     const discordId = user.id;
@@ -16,59 +24,67 @@ export class UserService {
     
     if (!discordId) throw new Error('discordId is required to ensure user');
 
-    const db = getDb();
-    const result = db.prepare(USER_QUERIES.ensureUser).run(discordId);
-
-    return !!result;
+    return this.repo.ensureUser(discordId);
   }
 
-  canBeg(discordId: string): { allowed: boolean; remainingMs: number } {
-    const db = getDb();
+  canBeg(discordId: string): BegPermission {
+    const lastBegAt = this.repo.getLastBegAtByDiscordId(discordId);
 
-    const row = db
-      .prepare(USER_QUERIES.getLastBegAtByDiscordId)
-      .get(discordId) as { last_beg_at: number | null } | undefined;
+    if (!lastBegAt) return { allowed: true, remainingMs: 0 };
 
-    if (!row?.last_beg_at) return { allowed: true, remainingMs: 0 };
+    const elapsedMs = Date.now() - lastBegAt;
+    const remainingMs = BEG_COOLDOWN_MS - elapsedMs;
 
-    const now = Date.now();
-    const timeSinceLastBeg = now - row.last_beg_at;
+    if (remainingMs <= 0) return { allowed: true, remainingMs: 0 };
 
-    const remainingMs = BEG_COOLDOWN_MS - timeSinceLastBeg;
-
-    return remainingMs <= 0
-      ? { allowed: true, remainingMs: 0 }
-      : { allowed: false, remainingMs: remainingMs };
+    return { allowed: false, remainingMs };
   }
 
-  recordBeg(discordId: string) {
-    const db = getDb();
+  addBalehBucks(discordId: string, amount: number): void {
+    this.repo.updateBalehBucksByDiscordId(discordId, amount, 'ADD');
+  }
 
-    db.prepare(USER_QUERIES.recordBeg).run(Date.now(), discordId);
+  recordBeg(discordId: string): void {
+    this.repo.updateLastBegAtByDiscordId(discordId, Date.now());
   }
 
   incrementNumberOfBegs(discordId: string) {
-    const db = getDb();
-
-    db.prepare(USER_QUERIES.incrementNumberOfBegs).run(discordId);
+    this.repo.incrementNumberOfBegsByDiscordId(discordId);
   }
 
   incrementBegProfit(discordId: string, amount: number) {
-    const db = getDb();
-
-    db.prepare(USER_QUERIES.incrementBegProfit).run(amount, discordId);
+    this.repo.incrementBegProfitByDiscordId(discordId, amount);
   }
 
-  addBalehBucks(discordId: string, amount: number) {
-    const db = getDb();
 
-    db.prepare(USER_QUERIES.addBalehBucks).run(amount, discordId);
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   subtractBalehBucks(discordId: string, amount: number) {
     const db = getDb();
 
-    db.prepare(USER_QUERIES.addBalehBucks).run(-amount, discordId);
+    db.prepare(USER_QUERIES.addBalehBucksByDiscordId).run(-amount, discordId);
   }
 
   getBalanceByDiscordId(discordId: string): number {

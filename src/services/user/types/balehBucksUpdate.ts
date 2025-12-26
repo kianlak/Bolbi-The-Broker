@@ -1,0 +1,1 @@
+export type balehBucksUpdate = 'ADD' | 'SUBTRACT';

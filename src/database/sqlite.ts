@@ -23,7 +23,7 @@ export function initSqliteDB(config: SqliteConfig): Database.Database {
 }
 
 export function getDb(): Database.Database {
-  if (!db) throw new Error('SQLite database not initialized');
+  if (!db) throw new Error(' SQLite database not initialized');
 
   return db;
 }

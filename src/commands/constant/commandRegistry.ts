@@ -1,6 +1,6 @@
 import { THANOS_CASINO_CHANNEL_ID } from '../../config/channels.ts';
 
-import { beg } from '../../commandsOLD/beg/beg.ts';
+import { beg } from '../commandOptions/beg/beg.ts';
 import { casino } from '../../commandsOLD/casino/casino.ts';
 import { profile } from '../../commandsOLD/profile/profile.ts';
 

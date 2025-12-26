@@ -1,5 +1,6 @@
 export type LogType = 
-  'INFO'    |
   'SUCCESS' |
+  'STARTING'|
+  'INFO'    |
   'WARN'    |
   'ERROR';

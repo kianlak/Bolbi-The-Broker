@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import type { ProfileContext } from '../types/ProfileContext.ts';
 import { milisecondsToMinutes } from '../../../helper/milisecondsToMinutes.ts';
-import { BEG_COOLDOWN_MS } from '../../../data/constants/constants.ts';
+import { BEG_COOLDOWN_MS } from '../../../commands/commandOptions/beg/constants/begConstants.ts';
 
 
 export function renderMainProfileEmbed(

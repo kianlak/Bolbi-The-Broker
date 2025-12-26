@@ -5,6 +5,7 @@ import { logger } from "../../../shared/logger.ts";
 import { getDb } from "../../../database/sqlite.ts";
 
 import type { UserContext } from "../../../types/UserContext.ts";
+import { RouletteStatsRepository } from "./rouletteRepository.ts";
 
 const GAME = "ROULETTE";
 
@@ -49,6 +50,12 @@ export type RouletteStatsCounters = {
 };
 
 export class RouletteStatsService {
+  private readonly repo: RouletteStatsRepository;
+
+  constructor(repo?: RouletteStatsRepository) {
+    this.repo = repo ?? new RouletteStatsRepository();
+  }
+
   ensureRouletteStatsCreated(user: UserContext): boolean {
     const discordUsername = user.username;
     const discordId = user.id;
@@ -57,11 +64,33 @@ export class RouletteStatsService {
     
     if (!discordId) throw new Error('discordId is required to ensure roulette stats');
 
-    const db = getDb();
-    const result = db.prepare(ROULETTE_STATS_QUERIES.createUserRouletteStats).run(discordId);
-
-    return !!result;
+    return this.repo.ensureStats(discordId);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
   getSummaryByDiscordId(discordId: string): RouletteStatsSummary | null {
     const db = getDb();

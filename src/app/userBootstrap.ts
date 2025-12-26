@@ -18,6 +18,6 @@ export function userBootstrap(user: UserContext) {
 
     rouletteStatsService.ensureRouletteStatsCreated(user);
   } catch (error) {
-    logger.error(`[${user.username}]`, error);
+    logger.error(`[${user.username}] User Bootstrap failed with `, error);
   }
 }

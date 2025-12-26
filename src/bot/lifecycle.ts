@@ -12,7 +12,7 @@ export async function onReady(client: Client) {
 }
 
 export async function onShutdown(client: Client, signal: string) {
-  logger.info(`[BOT] Shutdown started (${signal})`);
+  logger.starting(`[BOT] Starting Shutdown with code: (${signal})`);
 
   shutdownSqliteDB();
 

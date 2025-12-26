@@ -5,17 +5,20 @@ import { logger } from '../../../shared/logger.ts';
 import { selectDefaultPrompt } from './selectDefaultPrompts.ts';
 import { getMessageChannelName } from '../../../helper/getMessageChannelName.ts';
 
-export async function defaultResponse(message: Message) {
+import type { UserContext } from '../../../types/UserContext.ts';
+
+export async function defaultResponse(message: Message, user: UserContext) {
   const prompt = selectDefaultPrompt(message.channelId);
   const channelName = getMessageChannelName(message);
+  const commandName = defaultResponse.name;
   
   try {
-    logger.info(`[${message.author.username}] Sending default response to ${channelName}`);
+    logger.starting(`[${user.username}] Sending "${commandName}" to ${channelName}`);
     
     await message.reply(`*${prompt}*`);
 
-    logger.success(`[${message.author.username}] Default response complete`);
+    logger.success(`[${user.username}] Command "${commandName}" complete`);
   } catch (error) {
-    logger.error(`[${message.author.username}] Failed default response`, error);
+    logger.error(`[${user.username}] Command "${commandName}" failed with `, error);
   }
 }
