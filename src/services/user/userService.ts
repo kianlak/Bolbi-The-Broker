@@ -56,6 +56,9 @@ export class UserService {
     this.repo.incrementBegProfitByDiscordId(discordId, amount);
   }
 
+  getUserByDiscordId(discordId: string) {
+    return this.repo.getUserByDiscordId(discordId);
+  }
 
 
 
@@ -95,19 +98,5 @@ export class UserService {
       .get(discordId) as { baleh_bucks: number } | undefined;
 
     return row?.baleh_bucks ?? 0;
-  }
-
-  getUserByDiscordId(discordId: string) {
-    const db = getDb();
-
-    const row = db.prepare(USER_QUERIES.getUserByDiscordId).get(discordId) as {
-      discord_id: string;
-      baleh_bucks: number;
-      last_beg_at: number | null;
-      number_of_begs: number;
-      beg_profit: number;
-    };
-
-    return row;
   }
 }

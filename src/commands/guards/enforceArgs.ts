@@ -1,4 +1,4 @@
-import type { CommandContext } from '../types/types.ts';
+import type { CommandContext } from "../types/CommandContext.ts";
 
 export async function enforceArgs(
   commandContext: CommandContext,
@@ -12,7 +12,7 @@ export async function enforceArgs(
     await commandContext.message.reply(
       usage
         ? `❌ Not enough arguments\nUsage: \`${usage}\``
-        : '❌ Not enough arguments'
+        : '❌ Not enough arguments',
     );
 
     return false;

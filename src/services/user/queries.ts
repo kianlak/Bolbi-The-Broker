@@ -36,29 +36,6 @@ export const USER_QUERIES = {
     WHERE discord_id = ?;
   `,
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   getUserByDiscordId: `
     SELECT 
       id, 
@@ -70,6 +47,31 @@ export const USER_QUERIES = {
     FROM users
     WHERE discord_id = ?;
   `,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   getBalehBucksByDiscordId: `
     SELECT baleh_bucks

@@ -57,4 +57,18 @@ export class UserRepository {
 
     db.prepare(USER_QUERIES.incrementBegProfitByDiscordId).run(amount, discordId);
   }
+
+  getUserByDiscordId(discordId: string) {
+    const db = getDb();
+
+    const row = db.prepare(USER_QUERIES.getUserByDiscordId).get(discordId) as {
+      discord_id: string;
+      baleh_bucks: number;
+      last_beg_at: number;
+      number_of_begs: number;
+      beg_profit: number;
+    };
+
+    return row;
+  }
 }

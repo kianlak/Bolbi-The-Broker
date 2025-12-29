@@ -9,7 +9,7 @@ import { BegService } from './services/begService.ts';
 import { getMessageChannelName } from '../../../helper/getMessageChannelName.ts';
 import { selectBegPrompts } from './selectBegPrompts.ts';
 
-import type { CommandContext } from '../../types/types.ts';
+import type { CommandContext } from '../../types/CommandContext.ts';
 
 const userService = new UserService();
 const begService = new BegService(userService);

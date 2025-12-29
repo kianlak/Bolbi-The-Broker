@@ -1,7 +1,7 @@
 import type { Message } from 'discord.js';
 
-import type { CommandContext } from './types/types.ts';
 import type { UserContext } from '../types/UserContext.ts';
+import type { CommandContext } from './types/CommandContext.ts';
 
 export function buildCommandContext(
   message: Message,

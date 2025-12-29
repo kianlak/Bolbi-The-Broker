@@ -1,8 +1,9 @@
-
 import { enforceChannel } from './enforceChannel.ts';
 import { enforceArgs } from './enforceArgs.ts';
 
-import type { CommandContext, CommandInfo } from '../types/types.ts';
+import type{ CommandContext } from '../types/CommandContext.ts';
+import type { CommandInfo } from '../types/CommandInfo.ts';
+
 
 export async function runGuards(
   commandContext: CommandContext,

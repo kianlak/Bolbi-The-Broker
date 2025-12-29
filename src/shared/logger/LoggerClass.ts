@@ -7,8 +7,8 @@ export class Logger {
   private readonly styles: Readonly<Record<LogType, LogTypeData>> = {
     STARTING:{ color: '\x1b[95m', emoji: '🚀' },    
     SUCCESS: { color: '\x1b[32m', emoji: '✅' },
-    INFO:    { color: '\x1b[36m', emoji: 'ℹ️ ' },  // Space needed for console spacing to be aligned
-    WARN:    { color: '\x1b[33m', emoji: '⚠️ ' },  // Space needed for console spacing to be aligned
+    INFO:    { color: '\x1b[36m', emoji: 'ℹ️' },
+    WARN:    { color: '\x1b[33m', emoji: '⚠️' },
     ERROR:   { color: '\x1b[31m', emoji: '❌' },
   };
 
@@ -28,9 +28,23 @@ export class Logger {
 
     let logMessage: string;
 
-    if (type === 'SUCCESS')       logMessage = `${color}${emoji} [${type}]   ${timestamp} — ${message}${metaText}${this.reset}\n`;
-    else if (type === 'STARTING') logMessage = `${color}${emoji} [${type}]  ${timestamp} — ${message}${metaText}${this.reset}`
-    else                          logMessage = `${color}${emoji} [${type}]\t${timestamp} — ${message}${metaText}${this.reset}`;
+    switch(type) {
+      case 'STARTING':
+        logMessage = `${color}${emoji} [${type}]   ${timestamp} — ${message}${metaText}${this.reset}`;
+        break;
+
+      case 'ERROR':
+        logMessage = `${color}${emoji} [${type}]      ${timestamp} — ${message}${metaText}${this.reset}\n`;
+        break;
+
+      case 'SUCCESS':
+        logMessage = `${color}${emoji} [${type}]    ${timestamp} — ${message}${metaText}${this.reset}\n`;
+        break;
+
+      default:
+        logMessage = `${color}${emoji} [${type}]\t${timestamp} — ${message}${metaText}${this.reset}`
+        break;
+    }
 
     console.log(logMessage);
   }
