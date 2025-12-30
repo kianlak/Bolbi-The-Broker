@@ -1,7 +1,7 @@
 import { logger } from "../../../shared/logger.ts";
 
 import { buildProfileDropdownSelection } from "./data/buildProfileDropdownSelection.ts";
-import { profileRenderRouter } from "./profileRouter.ts";
+import { profileRenderRouter } from "./profileRenderRouter.ts";
 import { getMessageChannelName } from "../../../helper/getMessageChannelName.ts";
 import { buildProfileContextFromUser } from "./data/buildProfileContextFromUserId.ts";
 import { buildProfileContextForTarget } from "./data/buildProfileContestForTarget.ts";

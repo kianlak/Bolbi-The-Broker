@@ -2,7 +2,7 @@ import { MessageFlags, type StringSelectMenuInteraction } from 'discord.js';
 
 import { logger } from '../../../../shared/logger.ts';
 
-import { profileRenderRouter } from '../profileRouter.ts';
+import { profileRenderRouter } from '../profileRenderRouter.ts';
 import { buildProfileDropdownSelection } from '../data/buildProfileDropdownSelection.ts';
 import { buildProfileContextFromUser } from '../data/buildProfileContextFromUserId.ts';
 import { buildProfileContextForTarget } from '../data/buildProfileContestForTarget.ts';
