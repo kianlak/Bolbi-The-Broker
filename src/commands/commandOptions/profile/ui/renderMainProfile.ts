@@ -5,17 +5,13 @@ import { BEG_COOLDOWN_MS } from '../../beg/constants/begConstants.ts';
 import { milisecondsToMinutes } from '../../../../helper/milisecondsToMinutes.ts';
 
 import type { ProfileContext } from '../types/ProfileContext.ts';
+import type { MainProfileStats } from '../types/MainProfileStats.ts';
 
 export function renderMainProfileEmbed(
   profileContext: ProfileContext,
-  user: {
-    baleh_bucks: number;
-    last_beg_at: number;
-    beg_profit: number;
-    number_of_begs: number;
-  }
+  stats: MainProfileStats
 ) {
-  const elapsed = Date.now() - user.last_beg_at;
+  const elapsed = Date.now() - stats.last_beg_at;
   const remaining = BEG_COOLDOWN_MS - elapsed;
 
   const cooldown =
@@ -31,11 +27,11 @@ export function renderMainProfileEmbed(
     })
     .setThumbnail(profileContext.avatarUrl)
     .addFields(
-      { name: '💰 Baleh Bucks', value: `\`${user.baleh_bucks}\`` },
+      { name: '💰 Baleh Bucks', value: `\`${stats.baleh_bucks}\`` },
       { name: '🙏 Beg Cooldown', value: cooldown },
-      { name: '📈 Profit from Begging', value: `\`${user.beg_profit}\`` },
-      { name: '🔁 Times Begged', value: `\`${user.number_of_begs}\`` }
+      { name: '📈 Profit from Begging', value: `\`${stats.beg_profit}\`` },
+      { name: '🔁 Times Begged', value: `\`${stats.number_of_begs}\`` }
     )
-    .setFooter({ text: 'Bolbi The Broker' })
+    .setFooter({ text: 'Kian Canes Metaverse Manager' })
     .setTimestamp();
 }

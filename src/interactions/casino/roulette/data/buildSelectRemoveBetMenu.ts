@@ -16,7 +16,7 @@ export function buildRemoveBetMenu(
       session.bets.map((bet, index) => ({
         label: `${bet.category} → ${bet.target}`,
         description: `$${bet.amount}`,
-        value: String(index), // index-based removal
+        value: String(index),
       }))
     );
 

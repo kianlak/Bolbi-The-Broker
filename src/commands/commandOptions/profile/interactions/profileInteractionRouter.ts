@@ -7,7 +7,8 @@ export async function profileInteractionRouter(interaction: Interaction) {
 
   const [, action] = interaction.customId.split(':');
 
-  if (action === 'menu') {
-    return handleProfileMenu(interaction);
+  switch(action) {
+    case('menu'):
+      return handleProfileMenu(interaction);
   }
 }

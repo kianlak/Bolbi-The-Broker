@@ -42,16 +42,10 @@ export async function handleSpin(
 
   userService.subtractBalehBucks(ownerId, totalWager);
 
-  // --------------------------------------------------
-  // 2️⃣ SPIN + RESOLVE
-  // --------------------------------------------------
-
   const result = spinWheel();
   const resolved = resolveBets(session.bets, result);
 
-  // --------------------------------------------------
-  // 3️⃣ PAYOUT
-  // --------------------------------------------------
+
 
   const totalPayout = resolved.reduce(
     (sum, r) => sum + r.payout,
@@ -62,9 +56,6 @@ export async function handleSpin(
     userService.addBalehBucks(ownerId, totalPayout);
   }
 
-  // --------------------------------------------------
-  // 4️⃣ PROFIT / LOSS
-  // --------------------------------------------------
 
   let balehBucksWon = 0;
   let balehBucksLost = 0;
@@ -79,9 +70,6 @@ export async function handleSpin(
 
   const net = balehBucksWon - balehBucksLost;
 
-  // --------------------------------------------------
-  // 5️⃣ BET-LEVEL STATS (WINS + LOSSES)
-  // --------------------------------------------------
 
 let betsWon = 0;
 let betsLost = 0;
@@ -115,10 +103,6 @@ for (const r of resolved) {
   }
 }
 
-// --------------------------------------------------
-// 6️⃣ RESULT NUMBER STATS (FIXED HERE)
-// --------------------------------------------------
-
 const winsByResultNumber: Record<number, number> = {};
 const lossesByResultNumber: Record<number, number> = {};
 
@@ -145,10 +129,6 @@ if (hasLoss) {
     (lossesByResultNumber[result] ?? 0) + 1;
 }
 
-  // --------------------------------------------------
-  // 7️⃣ SEND STATS TO SERVICE
-  // --------------------------------------------------
-
   rouletteStatsService.recordSpin(ownerId, {
     spins_played: 1,
 
@@ -171,10 +151,8 @@ if (hasLoss) {
     losses_by_result_number: lossesByResultNumber,
   });
 
-  // 6️⃣ End session
   deleteSession(ownerId);
 
-  // 7️⃣ Show results
   await interaction.update({
     embeds: [
       buildSpinResultEmbed(

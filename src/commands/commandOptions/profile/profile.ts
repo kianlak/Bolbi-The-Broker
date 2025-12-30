@@ -31,7 +31,7 @@ export async function profile({ message, args = [], user }: CommandContext) {
     }
 
     const menuRow = buildProfileDropdownSelection(viewerId, targetId);
-    const embed = await profileRenderRouter('main', profileContext);
+    const embed = await profileRenderRouter('main', profileContext, user);
 
     if (!embed) {
       const client = message.client;
