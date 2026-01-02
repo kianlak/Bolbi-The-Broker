@@ -9,9 +9,7 @@ export function userContextFromMessage(message: Message): UserContext {
   };
 }
 
-export function userContextFromInteraction(
-  interaction: Interaction
-): UserContext | null {
+export function userContextFromInteraction(interaction: Interaction): UserContext | null {
   if (!interaction.isRepliable()) return null;
 
   return {

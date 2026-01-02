@@ -7,4 +7,7 @@ export const commandAliases: Record<string, string> = {
 
   casino: 'casino',
   c: 'casino',
+
+  ncasino: 'ncasino',
+  nc: 'ncasino'
 };

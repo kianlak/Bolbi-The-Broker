@@ -3,11 +3,11 @@ import {
   StringSelectMenuBuilder,
 } from 'discord.js';
 
-import { CASINO_GAMES } from '../../../commands/commandOptions/casino/constants/CASINO_GAMES.ts';
+import { CASINO_GAMES } from '../constants/CASINO_GAMES.ts';
 
-export function buildCasinoMenu(ownerId: string) {
+export function buildCasinoGameSelectionMenu(ownerId: string, sessionId: string) {
   const menu = new StringSelectMenuBuilder()
-    .setCustomId(`casino:select:${ownerId}`)
+    .setCustomId(`ncasino:lobby:select:${ownerId}:${sessionId}`)
     .setPlaceholder('Select a casino game')
     .addOptions(
       CASINO_GAMES.map(game => ({

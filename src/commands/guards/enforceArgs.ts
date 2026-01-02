@@ -9,21 +9,13 @@ export async function enforceArgs(
   const argCount = commandContext.args?.length ?? 0;
 
   if (minArgs !== undefined && argCount < minArgs) {
-    await commandContext.message.reply(
-      usage
-        ? `❌ Not enough arguments\nUsage: \`${usage}\``
-        : '❌ Not enough arguments',
-    );
+    await commandContext.message.reply(`❌ **Not enough arguments**\nUsage: \`${usage}\``);
 
     return false;
   }
 
   if (maxArgs !== undefined && argCount > maxArgs) {
-    await commandContext.message.reply(
-      usage
-        ? `❌ Too many arguments\nUsage: \`${usage}\``
-        : '❌ Too many arguments'
-    );
+    await commandContext.message.reply(`❌ **Too many arguments**\nUsage: \`${usage}\``);
 
     return false;
   }

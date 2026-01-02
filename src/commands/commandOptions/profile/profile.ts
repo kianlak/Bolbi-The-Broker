@@ -1,6 +1,6 @@
 import { logger } from "../../../shared/logger.ts";
 
-import { buildProfileDropdownSelection } from "./data/buildProfileDropdownSelection.ts";
+import { buildProfileDropdownSelection } from "./ui/buildProfileDropdownSelection.ts";
 import { profileRenderRouter } from "./profileRenderRouter.ts";
 import { getMessageChannelName } from "../../../helper/getMessageChannelName.ts";
 import { buildProfileContextFromUser } from "./data/buildProfileContextFromUserId.ts";
@@ -43,13 +43,13 @@ export async function profile({ message, args = [], user }: CommandContext) {
       return;
     }
 
-    const reply = await message.reply({
+    await message.reply({
       embeds: [embed],
       components: [menuRow],
     });
 
     logger.success(`[${user.username}] Command "${commandName}" complete`);
   } catch (error) {
-    logger.error(`[${user.username}] Command "${commandName}" failed`, error);
+    logger.error(`[${user.username}] Command "${commandName}" failed with `, error);
   }
 }

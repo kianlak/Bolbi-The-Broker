@@ -3,10 +3,7 @@ import {
   StringSelectMenuBuilder,
 } from 'discord.js';
 
-export function buildProfileDropdownSelection(
-  viewerId: string,
-  targetId: string
-) {
+export function buildProfileDropdownSelection(viewerId: string, targetId: string) {
   return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
     new StringSelectMenuBuilder()
       .setCustomId(`profile:menu:${viewerId}:${targetId}`)

@@ -7,9 +7,7 @@ export async function enforceChannel(
   if (!allowedChannelId) return true;
 
   if (message.channel.id !== allowedChannelId) {
-    await message.reply(
-      `🚫 This command can only be used in <#${allowedChannelId}>`
-    );
+    await message.reply(`🚫 This command can only be used in <#${allowedChannelId}>`);
 
     return false;
   }
