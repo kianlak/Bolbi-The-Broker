@@ -2,9 +2,14 @@ import type { Interaction } from 'discord.js';
 
 import { handleCasinoSelect } from './handleCasinoSelect.ts';
 import { handleRouletteChooseBet } from '../games/roulette/interactions/handleRouletteChooseBet.ts';
+import { handleRouletteChooseOption } from '../games/roulette/interactions/handleRouletteChooseOptions.ts';
+import { handleRouletteSetAmount } from '../games/roulette/interactions/handleRouletteSetAmount.ts';
 
 export async function ncasinoInteractionRouter(interaction: Interaction) {
-  if (!interaction.isMessageComponent()) return;
+  if (
+    !interaction.isMessageComponent() &&
+    !interaction.isModalSubmit()
+  ) return;
 
   const [scope, area, action] = interaction.customId.split(':');
 
@@ -21,6 +26,15 @@ export async function ncasinoInteractionRouter(interaction: Interaction) {
       if (action === 'choose-bet' && interaction.isStringSelectMenu()) {
         return handleRouletteChooseBet(interaction);
       }
+
+      if (action === 'choose-option' && interaction.isButton()) {
+        return handleRouletteChooseOption(interaction);
+      }
+
+      if (action === 'set-amount' && interaction.isModalSubmit()) {
+        return handleRouletteSetAmount(interaction);
+      }
+
       break;
   }
 }

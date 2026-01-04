@@ -16,7 +16,7 @@ export function buildRouletteBetCategoryMenu(
 
   const menu = new StringSelectMenuBuilder()
     .setCustomId(`ncasino:roulette:choose-bet:${ownerId}:${sessionId}`)
-    .setPlaceholder('Choose a bet type')
+    .setPlaceholder(`Choose a bet type`)
     .setMinValues(1)
     .setMaxValues(1)
     .setDisabled(disabled)

@@ -6,6 +6,7 @@ import { buildCasinoEmbed } from './ui/buildCasinoEmbed.ts';
 import { buildCasinoGameSelectionMenu } from './ui/buildCasinoGameSelectionMenu.ts';
 import { createSession, deleteSession, getSession, setLobbyMessageId } from './session/sessionManager.ts';
 import { getMessageChannelName } from '../../../helper/getMessageChannelName.ts';
+import { deleteRouletteState } from './games/roulette/rouletteSessionStore.ts';
 
 import type { CommandContext } from '../../types/CommandContext.ts';
 
@@ -40,6 +41,8 @@ export async function casino({ message, user }: CommandContext) {
         logger.error(`[${user.username}] Command "${commandName}" failed with `, error);
       }
     }
+
+    if (existingSession?.game === 'roulette') deleteRouletteState(existingSession.sessionId);
   }
 
   logger.info(`[${user.username}] Deleting previous session`);

@@ -6,7 +6,7 @@ import type { CasinoSession } from "../types/CasinoSession.ts";
 const sessions = new Map<string, CasinoSession>();
 
 function generateSessionId(): string {
-  return crypto.randomUUID();
+  return crypto.randomBytes(4).toString('hex');
 }
 
 export function getSession(userId: string): CasinoSession | undefined {
