@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, MessageFlags } from 'discord.js';
+import { ModalSubmitInteraction, MessageFlags, AttachmentBuilder } from 'discord.js';
 
 import { buildCurrentBetsEmbed } from '../ui/buildCurrentBetsEmbed.ts';
 import { getSession, setActiveMessageId } from '../../../session/sessionManager.ts';
@@ -7,6 +7,7 @@ import { buildRouletteBetCategoryMenu } from '../ui/buildRouletteBetCategoryMenu
 import { safeDeleteMessage } from '../../../helper/safeDeleteMessage.ts';
 
 import type { RouletteBetCategory } from '../types/RouletteBetCategory.ts';
+import { logger } from '../../../../../../shared/logger.ts';
 
 
 export async function handleRouletteSetAmount(
@@ -18,25 +19,28 @@ export async function handleRouletteSetAmount(
     interaction.customId.split(':');
 
   const betCategory = category as RouletteBetCategory;
+  const rouletteImage = new AttachmentBuilder('./src/data/img/rouletteTable.png');
+  
 
   const session = getSession(ownerId);
   if (!session || session.sessionId !== sessionId) {
     await interaction.reply({
-      content: '❌ This roulette session is no longer active.',
+      content: '❌ **This roulette session is no longer active**',
       flags: MessageFlags.Ephemeral,
     });
     return;
   }
 
-  const amount = Number(
-    interaction.fields.getTextInputValue('amount')
-  );
+  const amount = Number(interaction.fields.getTextInputValue('amount'));
 
   if (!Number.isFinite(amount) || amount <= 0) {
     await interaction.reply({
-      content: '❌ Please enter a valid positive number.',
+      content: '❌ **Please enter a valid positive number**',
       flags: MessageFlags.Ephemeral,
     });
+
+    logger.warn(`[${interaction.user.username}] User did not enter a valid positive number`);
+
     return;
   }
 
@@ -50,12 +54,13 @@ export async function handleRouletteSetAmount(
   const previousMessageId = session.activeMessageId;
 
   const reply = await interaction.editReply({
-    embeds: [buildCurrentBetsEmbed(state.bets)],
+    embeds: [buildCurrentBetsEmbed(state.bets, interaction)],
     components: [
       buildRouletteBetCategoryMenu(ownerId, sessionId),
     ],
+    files: [rouletteImage],
   });
 
   setActiveMessageId(ownerId, reply.id);
-  await safeDeleteMessage(interaction.channel!, previousMessageId);
+  await safeDeleteMessage(interaction.channel!, interaction.user.username, previousMessageId);
 }

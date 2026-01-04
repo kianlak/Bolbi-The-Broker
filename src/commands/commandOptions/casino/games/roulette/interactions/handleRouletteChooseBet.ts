@@ -1,16 +1,18 @@
-import { StringSelectMenuInteraction, MessageFlags } from 'discord.js';
+import { StringSelectMenuInteraction, MessageFlags, AttachmentBuilder } from 'discord.js';
 
 import { ROULETTE_BET_CATEGORIES } from '../constants/ROULETTE_BET_CATEOGIRES.ts';
 
 import { buildCategoryExplanationEmbed } from '../ui/buildCategoryExplanationEmbed.ts';
 import { getSession } from '../../../session/sessionManager.ts';
 import { buildFixedChoiceButtons } from '../target/Fixed/ui/buildFixedChoicesButtons.ts';
+import { showRouletteNumberModal } from '../target/Number/ui/showRouletteNumberModal.ts';
 
 export async function handleRouletteChooseBet(
   interaction: StringSelectMenuInteraction
 ) {
   const [, , , ownerId, sessionId] = interaction.customId.split(':');
-
+  const rouletteImage = new AttachmentBuilder('./src/data/img/rouletteTable.png');
+  
   if (interaction.user.id !== ownerId) {
     await interaction.reply({
       content: '❌ Not your menu.',
@@ -30,23 +32,28 @@ export async function handleRouletteChooseBet(
 
   const categoryId = interaction.values[0];
   const config = ROULETTE_BET_CATEGORIES.find(
-    c => c.category === categoryId
+    categories => categories.category === categoryId
   );
 
   if (!config) return;
 
-  const embed = buildCategoryExplanationEmbed(config);
-  const components =
-    config.targetType === 'FIXED'
-      ? buildFixedChoiceButtons(
+  switch (config.targetType) {
+    case 'FIXED':
+      return interaction.update({
+        embeds: [buildCategoryExplanationEmbed(config, interaction)],
+        components: buildFixedChoiceButtons(
           config.category,
           ownerId,
           sessionId
-        )
-      : [];
+        ),
+        files: [rouletteImage]
+      });
 
-  await interaction.update({
-    embeds: [embed],
-    components,
-  });
+    case 'NUMBER_INPUT':
+      return showRouletteNumberModal( 
+        interaction,
+        ownerId,
+        sessionId
+      );
+  }
 }

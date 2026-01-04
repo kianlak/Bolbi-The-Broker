@@ -4,6 +4,7 @@ import { handleCasinoSelect } from './handleCasinoSelect.ts';
 import { handleRouletteChooseBet } from '../games/roulette/interactions/handleRouletteChooseBet.ts';
 import { handleRouletteChooseOption } from '../games/roulette/interactions/handleRouletteChooseOptions.ts';
 import { handleRouletteSetAmount } from '../games/roulette/interactions/handleRouletteSetAmount.ts';
+import { handleRouletteSetNumberAmount } from '../games/roulette/target/Number/handleRouletteSetNumber.ts';
 
 export async function ncasinoInteractionRouter(interaction: Interaction) {
   if (
@@ -29,6 +30,10 @@ export async function ncasinoInteractionRouter(interaction: Interaction) {
 
       if (action === 'choose-option' && interaction.isButton()) {
         return handleRouletteChooseOption(interaction);
+      }
+
+      if (action === 'set-number-amount' && interaction.isModalSubmit()) {
+        return handleRouletteSetNumberAmount(interaction);
       }
 
       if (action === 'set-amount' && interaction.isModalSubmit()) {

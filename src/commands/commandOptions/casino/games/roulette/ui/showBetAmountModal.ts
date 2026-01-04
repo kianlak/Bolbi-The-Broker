@@ -2,8 +2,8 @@ import {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
-  ActionRowBuilder,
   ButtonInteraction,
+  LabelBuilder,
 } from 'discord.js';
 
 export async function showBetAmountModal(
@@ -14,15 +14,18 @@ export async function showBetAmountModal(
     .setCustomId(customId)
     .setTitle('Place Your Bet');
 
-  const input = new TextInputBuilder()
+  const amountInput = new TextInputBuilder()
     .setCustomId('amount')
-    .setLabel('Bet Amount')
     .setStyle(TextInputStyle.Short)
+    .setPlaceholder('Enter your bet amount')
     .setRequired(true);
 
-  modal.addComponents(
-    new ActionRowBuilder<TextInputBuilder>().addComponents(input)
-  );
+  const amountLabel = new LabelBuilder()
+    .setLabel('Bet Amount')
+    .setDescription('How much would you like to wager?')
+    .setTextInputComponent(amountInput);
+
+  modal.addLabelComponents(amountLabel);
 
   await interaction.showModal(modal);
 }

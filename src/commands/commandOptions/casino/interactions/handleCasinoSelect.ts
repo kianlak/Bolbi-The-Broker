@@ -46,7 +46,7 @@ export async function handleCasinoSelect(interaction: StringSelectMenuInteractio
   const selectedGame = interaction.values[0];
   const handler = CASINO_GAME_REGISTRY[selectedGame];
 
-  logger.info(`[${interaction.user.username}] User has selected to play "${selectedGame}"`);
+  logger.info(`[${interaction.user.username}] User has selected to play "${selectedGame}"\n`);
 
   setGame(ownerId, selectedGame);
   setActiveMessageId(ownerId, interaction.message.id);
