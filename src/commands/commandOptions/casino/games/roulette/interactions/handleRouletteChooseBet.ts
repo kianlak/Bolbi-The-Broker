@@ -6,6 +6,9 @@ import { buildCategoryExplanationEmbed } from '../ui/buildCategoryExplanationEmb
 import { getSession } from '../../../session/sessionManager.ts';
 import { buildFixedChoiceButtons } from '../target/Fixed/ui/buildFixedChoicesButtons.ts';
 import { showRouletteNumberModal } from '../target/Number/ui/showRouletteNumberModal.ts';
+import { showSplitNumberModal } from '../target/Split/ui/showSplitBaseNumberModal.ts';
+import { showRouletteStaticBetAmountModal } from '../target/Static/ui/showRouletteStaticBetAmountModal.ts';
+import { buildDropdownTargetMenu } from '../target/Dropdown/ui/buildDropdownTargetMenu.ts';
 
 export async function handleRouletteChooseBet(
   interaction: StringSelectMenuInteraction
@@ -15,7 +18,7 @@ export async function handleRouletteChooseBet(
   
   if (interaction.user.id !== ownerId) {
     await interaction.reply({
-      content: '❌ Not your menu.',
+      content: '❌ **Not your menu**',
       flags: MessageFlags.Ephemeral,
     });
     return;
@@ -24,7 +27,7 @@ export async function handleRouletteChooseBet(
   const session = getSession(ownerId);
   if (!session || session.sessionId !== sessionId) {
     await interaction.reply({
-      content: '❌ Session expired.',
+      content: '❌ **Session expired**',
       flags: MessageFlags.Ephemeral,
     });
     return;
@@ -55,5 +58,32 @@ export async function handleRouletteChooseBet(
         ownerId,
         sessionId
       );
+
+    case 'SPLIT': {
+      return showSplitNumberModal(
+        interaction,
+        ownerId,
+        sessionId
+      );
+    }
+
+    case 'STATIC':
+      return showRouletteStaticBetAmountModal(
+        interaction,
+        config.category,
+        config.label,
+        ownerId,
+        sessionId
+      );
+
+    case 'DROPDOWN':
+    return interaction.update({
+      embeds: [buildCategoryExplanationEmbed(config, interaction)],
+      components: buildDropdownTargetMenu(
+        config.category,
+        ownerId,
+        sessionId
+      ),
+    });
   }
 }

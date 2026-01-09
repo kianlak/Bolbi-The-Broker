@@ -11,6 +11,7 @@ export function getRouletteState(
 
   const created: RouletteSessionState = {
     bets: [],
+    reserved: 0,
   };
 
   rouletteSessions.set(sessionId, created);
@@ -33,9 +34,8 @@ export function addOrStackRouletteBet(
       b.selection === bet.selection
   );
 
-  if (existing) {
-    existing.amount += bet.amount;
-  } else {
-    state.bets.push(bet);
-  }
+  if (existing) existing.amount += bet.amount;
+  else state.bets.push(bet);
+
+  state.reserved += bet.amount;
 }

@@ -1,3 +1,3 @@
 export function calculateBegReward(): number {
-  return Math.floor(Math.random() * 100);
+  return Math.floor(Math.random() * 101);
 }

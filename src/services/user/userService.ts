@@ -1,9 +1,7 @@
-import { USER_QUERIES } from "./queries.ts";
 import { BEG_COOLDOWN_MS } from "../../commands/commandOptions/beg/constants/begConstants.ts";
 
 import { logger } from "../../shared/logger.ts";
 
-import { getDb } from "../../database/sqlite.ts";
 import { UserRepository } from "./userRepository.ts";
 
 import type { UserContext } from "../../types/UserContext.ts";
@@ -44,6 +42,10 @@ export class UserService {
     this.repo.updateBalehBucksByDiscordId(discordId, amount, 'ADD');
   }
 
+  subtractBalehBucks(discordId: string, amount: number) {
+    this.repo.updateBalehBucksByDiscordId(discordId, amount, 'SUBTRACT');
+  }
+
   recordBeg(discordId: string): void {
     this.repo.updateLastBegAtByDiscordId(discordId, Date.now());
   }
@@ -56,47 +58,11 @@ export class UserService {
     this.repo.incrementBegProfitByDiscordId(discordId, amount);
   }
 
-  getUserByDiscordId(discordId: string) {
+  getUser(discordId: string) {
     return this.repo.getUserByDiscordId(discordId);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  subtractBalehBucks(discordId: string, amount: number) {
-    const db = getDb();
-
-    db.prepare(USER_QUERIES.addBalehBucksByDiscordId).run(-amount, discordId);
-  }
-
-  getBalanceByDiscordId(discordId: string): number {
-    const db = getDb();
-
-    const row = db
-      .prepare(USER_QUERIES.getBalehBucksByDiscordId)
-      .get(discordId) as { baleh_bucks: number } | undefined;
-
-    return row?.baleh_bucks ?? 0;
+  getUserBalance(discordId: string): number {
+    return this.repo.getUserBalanceByDiscordId(discordId);
   }
 }

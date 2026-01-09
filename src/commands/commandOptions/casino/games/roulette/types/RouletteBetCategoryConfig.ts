@@ -1,4 +1,4 @@
-import { RouletteBetCategory } from "../../../../../../interactions/casino/roulette/types/RouletteBetCategory.ts";
+import { RouletteBetCategory } from "./RouletteBetCategory.ts";
 
 export type RouletteBetCategoryConfig = {
   category: RouletteBetCategory;
@@ -10,10 +10,9 @@ export type RouletteBetCategoryConfig = {
   targetType:
     | 'FIXED'
     | 'NUMBER_INPUT'
-    | 'RANGE_SELECT'
-    | 'PAIR_INPUT'
-    | 'NUMBER_PAIR'
-    | 'DROPDOWN';
+    | 'SPLIT'
+    | 'DROPDOWN'
+    | 'STATIC';
 
   enabled: boolean;
 }

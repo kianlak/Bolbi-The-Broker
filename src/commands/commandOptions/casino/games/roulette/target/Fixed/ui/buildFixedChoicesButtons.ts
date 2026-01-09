@@ -19,7 +19,7 @@ export function buildFixedChoiceButtons(
   const buttons = options.map(opt => {
     const button = new ButtonBuilder()
       .setCustomId(
-        `ncasino:roulette:choose-option:${ownerId}:${sessionId}:${category}:${opt.value}`
+        `casino:roulette:choose-option:${ownerId}:${sessionId}:${category}:${opt.value}`
       )
       .setLabel(opt.label)
       .setStyle(ButtonStyle.Primary);

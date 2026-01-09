@@ -7,15 +7,18 @@ export const rouletteStatsSchema: DatabaseSchema = {
   ensure(db: Database.Database) {
     db.exec(`
       CREATE TABLE IF NOT EXISTS roulette_stats (
-        discord_id TEXT PRIMARY KEY REFERENCES users (discord_id) ON DELETE CASCADE,
-        spins_played INTEGER NOT NULL DEFAULT (0),
-        baleh_bucks_won INTEGER NOT NULL DEFAULT (0),
-        baleh_bucks_lost INTEGER NOT NULL DEFAULT (0),
-        largest_win INTEGER DEFAULT (0) NOT NULL,
-        largest_loss INTEGER NOT NULL DEFAULT (0),
-        bets_won INTEGER NOT NULL DEFAULT (0),
-        bets_lost INTEGER DEFAULT (0) NOT NULL
-      );
-    `);
+      discord_id TEXT PRIMARY KEY,
+
+      spins_played INTEGER NOT NULL DEFAULT 0,
+
+      baleh_bucks_won INTEGER NOT NULL DEFAULT 0,
+      baleh_bucks_lost INTEGER NOT NULL DEFAULT 0,
+
+      largest_win INTEGER NOT NULL DEFAULT 0,
+      largest_loss INTEGER NOT NULL DEFAULT 0,
+
+      bets_won INTEGER NOT NULL DEFAULT 0,
+      bets_lost INTEGER NOT NULL DEFAULT 0);`
+    );
   },
 };

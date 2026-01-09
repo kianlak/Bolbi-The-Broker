@@ -1,18 +1,14 @@
-import type { Interaction } from 'discord.js';
+import type { Interaction, InteractionResponse } from 'discord.js';
 
-import { casinoInteractionRouter } from './casino/casinoRouter.ts';
-import { rouletteInteractionRouter } from './casino/roulette/rouletteRouter.ts';
 import { profileInteractionRouter } from '../commands/commandOptions/profile/interactions/profileInteractionRouter.ts';
-import { ncasinoInteractionRouter } from '../commands/commandOptions/casino/interactions/casinoInteractionRouter.ts';
+import { casinoInteractionRouter } from '../commands/commandOptions/casino/interactions/casinoInteractionRouter.ts';
 
 const DOMAIN_ROUTERS: Record<
   string,
-  (interaction: Interaction) => Promise<void>
+  (interaction: Interaction) => Promise<void | InteractionResponse<boolean>>
 > = {
   profile: profileInteractionRouter,
-  casino: casinoInteractionRouter, // Remove this later and replace it with ncasino
-  ncasino: ncasinoInteractionRouter,
-  roulette: rouletteInteractionRouter,
+  casino: casinoInteractionRouter,
 };
 
 export async function interactionRouter(interaction: Interaction) {

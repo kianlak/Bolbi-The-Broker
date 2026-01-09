@@ -36,8 +36,8 @@ export class UserRepository {
   updateBalehBucksByDiscordId(discordId: string, amount: number, type: balehBucksUpdate): void {
     const db = getDb();
     
-    if (type === 'ADD') db.prepare(USER_QUERIES.addBalehBucksByDiscordId).run(amount, discordId);
-    else if (type === 'SUBTRACT') console.log(); // Placeholder until I write a subtract query
+    if (type === 'ADD') { db.prepare(USER_QUERIES.addBalehBucksByDiscordId).run(amount, discordId); }
+    else if (type === 'SUBTRACT') { db.prepare(USER_QUERIES.subtractBalehBucksByDiscordId).run(Math.abs(amount), discordId); }
   }
 
   updateLastBegAtByDiscordId(discordId: string, timestamp: number): void {
@@ -70,5 +70,15 @@ export class UserRepository {
     };
 
     return row;
+  }
+
+  getUserBalanceByDiscordId(discordId: string) {
+    const db = getDb();
+
+    const row = db
+      .prepare(USER_QUERIES.getBalehBucksByDiscordId)
+      .get(discordId) as { baleh_bucks: number } | undefined;
+
+    return row?.baleh_bucks ?? 0;
   }
 }

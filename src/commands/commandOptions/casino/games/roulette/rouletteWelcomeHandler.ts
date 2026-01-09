@@ -32,7 +32,7 @@ export async function rouletteWelcomeHandler(interaction: StringSelectMenuIntera
 
   await interaction.update({
     embeds: [embed],
-    components: [buildRouletteBetCategoryMenu(interaction.user.id, session.sessionId, false)],
+    components: [buildRouletteBetCategoryMenu(interaction.user.id, interaction.user.username, session.sessionId, false)],
     files: [rouletteImage],
   });
 }

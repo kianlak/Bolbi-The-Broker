@@ -23,14 +23,32 @@ export class BegService {
     try {
       const transactionsToExecute = db.transaction(() => {
         this.userService.addBalehBucks(discordId, reward);
-        this.userService.recordBeg(discordId);
-        this.userService.incrementNumberOfBegs(discordId);
         this.userService.incrementBegProfit(discordId, reward);
       });
 
       transactionsToExecute();
     } catch(error) {
       logger.error(`[${discordUsername}] Multi transaction query failed (${functionName})`);
+    }
+  }
+
+  recordBegOnly(user: UserContext): void {
+    const discordId = user.id;
+    const discordUsername = user.username;
+
+    const db = getDb();
+
+    try {
+      const tx = db.transaction(() => {
+        this.userService.recordBeg(discordId);
+        this.userService.incrementNumberOfBegs(discordId);
+      });
+
+      tx();
+    } catch (error) {
+      logger.error(
+        `[${discordUsername}] recordBegOnly transaction failed`
+      );
     }
   }
 }

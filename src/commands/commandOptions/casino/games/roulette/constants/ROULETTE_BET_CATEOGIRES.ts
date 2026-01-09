@@ -63,12 +63,12 @@ export const ROULETTE_BET_CATEGORIES: RouletteBetCategoryConfig[] = [
     description: 'Bet on 0, 00, 1, 2, and 3 (Payout: 6:1)',
     emoji: '🎯',
     requiresTarget: false,
-    targetType: 'FIXED',
+    targetType: 'STATIC',
     enabled: true,
   },
   {
-    category: RouletteBetCategory.CORNER,
     label: 'Corner',
+    category: RouletteBetCategory.CORNER,
     description: 'Bet on 4 numbers (Payout: 8:1)',
     emoji: '📐',
     requiresTarget: true,
@@ -90,7 +90,7 @@ export const ROULETTE_BET_CATEGORIES: RouletteBetCategoryConfig[] = [
     description: 'Bet on 0 and 00 (Payout: 17:1)',
     emoji: '🧩',
     requiresTarget: false,
-    targetType: 'FIXED',
+    targetType: 'STATIC',
     enabled: true,
   },
   {
@@ -99,7 +99,7 @@ export const ROULETTE_BET_CATEGORIES: RouletteBetCategoryConfig[] = [
     description: 'Bet on two adjacent numbers (Payout: 17:1)',
     emoji: '✂️',
     requiresTarget: true,
-    targetType: 'NUMBER_PAIR',
+    targetType: 'SPLIT',
     enabled: true,
   },
   {

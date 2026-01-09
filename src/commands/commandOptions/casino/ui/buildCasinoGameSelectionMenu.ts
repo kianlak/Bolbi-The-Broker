@@ -7,7 +7,7 @@ import { CASINO_GAMES } from '../constants/CASINO_GAMES.ts';
 
 export function buildCasinoGameSelectionMenu(ownerId: string, sessionId: string) {
   const menu = new StringSelectMenuBuilder()
-    .setCustomId(`ncasino:lobby:select:${ownerId}:${sessionId}`)
+    .setCustomId(`casino:lobby:select:${ownerId}:${sessionId}`)
     .setPlaceholder('Select a casino game')
     .addOptions(
       CASINO_GAMES.map(game => ({

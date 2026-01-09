@@ -15,24 +15,24 @@ export const FIXED_TARGET_OPTIONS: Partial<
   ],
 
   [RouletteBetCategory.EVEN_ODD]: [
-    { label: 'Even', value: 'EVEN' },
-    { label: 'Odd', value: 'ODD' },
+    { label: 'Even', value: 'EVEN', emoji: '➕' },
+    { label: 'Odd', value: 'ODD', emoji: '➖' },
   ],
 
   [RouletteBetCategory.LOW_HIGH]: [
-    { label: 'Low (1-18)', value: 'LOW' },
-    { label: 'High (19-36)', value: 'HIGH' },
+    { label: 'Low (1-18)', value: 'LOW', emoji: '⬇️' },
+    { label: 'High (19-36)', value: 'HIGH', emoji: '⬆️' },
   ],
 
   [RouletteBetCategory.DOZEN]: [
-    { label: '1-12', value: 'DOZEN_1' },
-    { label: '13-24', value: 'DOZEN_2' },
-    { label: '25-36', value: 'DOZEN_3' },
+    { label: '1st 12', value: 'DOZEN_1', emoji: '🔢' },
+    { label: '2nd 12', value: 'DOZEN_2', emoji: '🔢' },
+    { label: '3rd 12', value: 'DOZEN_3', emoji: '🔢' },
   ],
 
   [RouletteBetCategory.COLUMN]: [
-    { label: 'Column 1', value: 'COLUMN_1' },
-    { label: 'Column 2', value: 'COLUMN_2' },
-    { label: 'Column 3', value: 'COLUMN_3' },
+    { label: 'Column 1', value: 'COLUMN_1', emoji: '🧱' },
+    { label: 'Column 2', value: 'COLUMN_2', emoji: '🧱' },
+    { label: 'Column 3', value: 'COLUMN_3', emoji: '🧱' },
   ],
 };

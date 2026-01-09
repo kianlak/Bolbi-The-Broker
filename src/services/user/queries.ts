@@ -18,6 +18,12 @@ export const USER_QUERIES = {
     WHERE discord_id = ?;
   `,
 
+  subtractBalehBucksByDiscordId: `
+    UPDATE users
+    SET baleh_bucks = baleh_bucks - ?
+    WHERE discord_id = ?;
+  `,
+
   updateLastBegAtByDiscordId: `
     UPDATE users
     SET last_beg_at = ?
@@ -47,31 +53,6 @@ export const USER_QUERIES = {
     FROM users
     WHERE discord_id = ?;
   `,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   getBalehBucksByDiscordId: `
     SELECT baleh_bucks

@@ -1,8 +1,7 @@
 import { DEV_TEST_CHANNEL_ID, THANOS_CASINO_CHANNEL_ID } from '../../config/channels.ts';
 
 import { beg } from '../commandOptions/beg/beg.ts';
-import { casino } from '../../commandsOLD/casino/casino.ts';
-import { casino as ncasino } from '../commandOptions/casino/casino.ts';
+import { casino } from '../commandOptions/casino/casino.ts';
 import { profile } from '../commandOptions/profile/profile.ts';
 
 import type { CommandInfo } from '../types/CommandInfo.ts';
@@ -24,13 +23,8 @@ export const COMMAND_INFO: Record<string, CommandInfo> = {
 
   casino: {
     execute: casino,
+    usage: '+casino',
+    description: 'Enter the casino to play the available games',
     allowedChannelId: THANOS_CASINO_CHANNEL_ID,
-    usage: '+casino',
   },
-
-  ncasino: {
-    execute: ncasino,
-    allowedChannelId: DEV_TEST_CHANNEL_ID,
-    usage: '+casino',
-  }
 };

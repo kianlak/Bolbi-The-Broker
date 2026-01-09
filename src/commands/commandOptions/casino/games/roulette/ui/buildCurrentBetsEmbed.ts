@@ -1,6 +1,4 @@
-import { EmbedBuilder, ModalSubmitInteraction } from 'discord.js';
-
-import type { CacheType } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 
 import { formatRouletteBetLabel } from '../helper/formatRouletteBetsLabel.ts';
 
@@ -8,12 +6,15 @@ import type { RouletteBet } from '../types/RouletteBet.ts';
 
 export function buildCurrentBetsEmbed(
   bets: RouletteBet[], 
-  interaction: ModalSubmitInteraction<CacheType>
+  user: {
+    username: string;
+    avatarUrl: string | null;
+  }
 ) {
   return new EmbedBuilder()
-    .setTitle('🎟️ Current Bets')
+    .setTitle('🎟️ Roulette — Betting Table')
     .setImage('attachment://rouletteTable.png')
-    .setThumbnail(interaction.user.displayAvatarURL())
+    .setThumbnail(user.avatarUrl)
     .setDescription(
       bets.length === 0
         ? `— No bets yet —`

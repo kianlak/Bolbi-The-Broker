@@ -18,16 +18,17 @@ export async function casino({ message, user }: CommandContext) {
   logger.starting(`[${user.username}] Starting "${commandName}" in ${getMessageChannelName(message)}`);
 
   if (existingSession) {
+    
     if (existingSession.game === null && existingSession.lobbyMessageId) {
       try {
         logger.info(`[${user.username}] Deleting previous casino session message`);
-      
+        
         await message.channel.messages.delete(existingSession.lobbyMessageId);
       } catch(error) {
         logger.error(`[${user.username}] Command "${commandName}" failed with `, error);
       }
     }
-
+    
     if (
       existingSession.game !== null &&
       !existingSession.isComplete &&
@@ -48,7 +49,7 @@ export async function casino({ message, user }: CommandContext) {
   logger.info(`[${user.username}] Deleting previous session`);
   deleteSession(user.id);
 
-  logger.info(`[${user.username}] Creating new session`);
+  logger.info(`[${user.username}] Creating new session\n`);
   const session = createSession(user.id);
   
   const sentMessage = await message.reply({

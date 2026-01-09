@@ -4,10 +4,11 @@ import {
   TextInputStyle,
   ButtonInteraction,
   LabelBuilder,
+  StringSelectMenuInteraction,
 } from 'discord.js';
 
 export async function showBetAmountModal(
-  interaction: ButtonInteraction,
+  interaction: ButtonInteraction | StringSelectMenuInteraction,
   customId: string
 ) {
   const modal = new ModalBuilder()

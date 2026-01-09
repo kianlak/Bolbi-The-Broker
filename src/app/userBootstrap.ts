@@ -1,13 +1,13 @@
 import { logger } from '../shared/logger.ts';
 import { ensuredUsers } from '../cache/ensuredUsers.ts';
 
-import { RouletteStatsService } from '../services/casino/roulette/rouletteService.ts';
 import { UserService } from '../services/user/userService.ts';
+import { RouletteService } from '../services/casino/roulette/rouletteService.ts';
 
 import type { UserContext } from '../types/UserContext.ts';
 
 const userService = new UserService();
-const rouletteStatsService = new RouletteStatsService();
+const rouletteService = new RouletteService();
 
 export function userBootstrap(user: UserContext) {
   try {
@@ -21,8 +21,6 @@ export function userBootstrap(user: UserContext) {
     logger.info(`[${user.username}] User [${user.username}] added to cache`);
 
     if (!created) return;
-
-    rouletteStatsService.ensureRouletteStatsCreated(user);
   } catch (error) {
     logger.error(`[${user.username}] User Bootstrap failed with `, error);
   }

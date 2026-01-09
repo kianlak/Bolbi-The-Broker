@@ -18,7 +18,7 @@ export async function profileRenderRouter(
   try {
     switch (page) {
       case 'main': {
-        const userStats: MainProfileStats = userService.getUserByDiscordId(profileContext.user.id);
+        const userStats: MainProfileStats = userService.getUser(profileContext.user.id);
 
         if (!userStats) return null;
 

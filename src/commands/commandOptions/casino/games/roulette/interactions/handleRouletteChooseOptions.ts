@@ -11,6 +11,6 @@ export async function handleRouletteChooseOption(
 
   await showBetAmountModal(
     interaction,
-    `ncasino:roulette:set-amount:${ownerId}:${sessionId}:${category}:${selection}`
+    `casino:roulette:set-amount:${ownerId}:${sessionId}:${category}:${selection}`
   );
 }
