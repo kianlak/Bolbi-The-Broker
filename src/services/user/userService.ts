@@ -65,4 +65,12 @@ export class UserService {
   getUserBalance(discordId: string): number {
     return this.repo.getUserBalanceByDiscordId(discordId);
   }
+
+  incrementNumberOfCardsCollected(discordId: string, amount = 1): void {
+    this.repo.incrementNumberOfCardsCollectedByDiscordId(discordId, amount);
+  }
+
+  getNumberOfCardsCollected(discordId: string): number {
+    return this.repo.getNumberOfCardsCollectedByDiscordId(discordId);
+  }
 }

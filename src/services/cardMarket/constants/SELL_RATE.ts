@@ -1,0 +1,1 @@
+export const SELL_RATE = 0.8;

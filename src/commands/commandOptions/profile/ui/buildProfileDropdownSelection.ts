@@ -8,11 +8,18 @@ export function buildProfileDropdownSelection(viewerId: string, targetId: string
     new StringSelectMenuBuilder()
       .setCustomId(`profile:menu:${viewerId}:${targetId}`)
       .setPlaceholder('Select profile page')
-      .addOptions({
-        label: 'Main Profile',
-        value: 'main',
-        emoji: '🧍',
-      })
+      .addOptions(
+        {
+          label: 'Main Profile',
+          value: 'main',
+          emoji: '🧍',
+        },
+        {
+          label: 'Roulette Stats',
+          value: 'roulette',
+          emoji: '🎡',
+        },
+    )
   );
 }
 

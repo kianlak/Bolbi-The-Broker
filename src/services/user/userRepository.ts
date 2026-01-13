@@ -66,6 +66,7 @@ export class UserRepository {
       baleh_bucks: number;
       last_beg_at: number;
       number_of_begs: number;
+      number_cards_collected: number;
       beg_profit: number;
     };
 
@@ -80,5 +81,30 @@ export class UserRepository {
       .get(discordId) as { baleh_bucks: number } | undefined;
 
     return row?.baleh_bucks ?? 0;
+  }
+
+  incrementNumberOfCardsCollectedByDiscordId(
+    discordId: string,
+    amount = 1
+  ): void {
+    const db = getDb();
+
+    db.prepare(
+      USER_QUERIES.incrementNumberOfCardsCollected
+    ).run(amount, discordId);
+  }
+
+  getNumberOfCardsCollectedByDiscordId(
+    discordId: string
+  ): number {
+    const db = getDb();
+
+    const row = db
+      .prepare(
+        USER_QUERIES.getNumberOfCardsCollectedByDiscordId
+      )
+      .get(discordId) as { number_cards_collected: number } | undefined;
+
+    return row?.number_cards_collected ?? 0;
   }
 }

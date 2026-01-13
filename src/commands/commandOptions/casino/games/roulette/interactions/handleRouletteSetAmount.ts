@@ -8,9 +8,11 @@ import { addOrStackRouletteBet, getRouletteState } from '../rouletteSessionStore
 import { buildRouletteBetCategoryMenu } from '../ui/buildRouletteBetCategoryMenu.ts';
 import { safeDeleteMessage } from '../../../helper/safeDeleteMessage.ts';
 import { buildRouletteActionRow } from '../ui/buildRouletteButtonRows.ts';
+import { UserService } from '../../../../../../services/user/userService.ts';
 
 import type { RouletteBetCategory } from '../types/RouletteBetCategory.ts';
 
+const userService = new UserService();
 
 export async function handleRouletteSetAmount(
   interaction: ModalSubmitInteraction
@@ -43,6 +45,18 @@ export async function handleRouletteSetAmount(
     return;
   }
 
+  const balance = userService.getUserBalance(ownerId);
+  let state = getRouletteState(sessionId);
+
+  const available = balance - state.reserved;
+
+  if (amount > available) {
+    await interaction.editReply({
+      content: `❌ **You only have ${available} baleh bucks available**`,
+    });
+    return;
+  }
+
   addOrStackRouletteBet(sessionId, {
     category: betCategory,
     selection,
@@ -51,7 +65,7 @@ export async function handleRouletteSetAmount(
 
   logger.info(`[${interaction.user.username}] User selected bet ${betCategory}:${selection} for ${amount} baleh bucks\n`);
 
-  const state = getRouletteState(sessionId);
+  state = getRouletteState(sessionId);
   const previousMessageId = session.activeMessageId;
 
   const reply = await interaction.editReply({

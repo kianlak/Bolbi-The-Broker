@@ -7,7 +7,7 @@ import { milisecondsToMinutes } from '../../../../helper/milisecondsToMinutes.ts
 import type { ProfileContext } from '../types/ProfileContext.ts';
 import type { MainProfileStats } from '../types/MainProfileStats.ts';
 
-export function renderMainProfileEmbed(
+export function buildMainProfileEmbed(
   profileContext: ProfileContext,
   stats: MainProfileStats
 ) {

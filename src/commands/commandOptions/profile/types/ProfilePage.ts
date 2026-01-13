@@ -1,1 +1,1 @@
-export type ProfilePage = 'main'; // ADD IN AFTER REWORKING ROULETTE | 'roulette';
+export type ProfilePage = 'main' | 'roulette';

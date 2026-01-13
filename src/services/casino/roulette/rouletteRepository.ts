@@ -1,6 +1,6 @@
 import { getDb } from "../../../database/sqlite.ts";
 import { ROULETTE_QUERIES } from "./queries.ts";
-
+import type { RouletteProfileStats } from "../../../commands/commandOptions/profile/types/RouletteProfileStats.ts";
 
 export class RouletteRepository {
   updateUserBalance(discordId: string, amount: number): void {
@@ -49,6 +49,16 @@ export class RouletteRepository {
     );
   }
 
+  getStats(
+    discordId: string
+  ): RouletteProfileStats | null {
+    const db = getDb();
+
+    return db
+      .prepare(ROULETTE_QUERIES.getRouletteStats)
+      .get(discordId) as RouletteProfileStats | null;
+  }
+
   incrementBetStat(
     discordId: string,
     game: string,
@@ -58,18 +68,29 @@ export class RouletteRepository {
   ) {
     const db = getDb();
 
-    db.prepare(`
-      INSERT INTO casino_game_stats (
-        discord_id,
-        game,
-        bet_type,
-        bet_key,
-        outcome,
-        count
+    db.prepare(ROULETTE_QUERIES.incrementBetStat)
+    .run(discordId, game, betType, betKey, outcome);
+  }
+
+  getRouletteBetTypeStats(
+    discordId: string
+  ): Array<{
+    bet_type: string;
+    bet_key: string;
+    outcome: 'WIN' | 'LOSS';
+    total: number;
+  }> {
+    const db = getDb();
+
+    return db
+      .prepare(
+        ROULETTE_QUERIES.getRouletteBetTypeStats
       )
-      VALUES (?, ?, ?, ?, ?, 1)
-      ON CONFLICT(discord_id, game, bet_type, bet_key, outcome)
-      DO UPDATE SET count = count + 1;
-    `).run(discordId, game, betType, betKey, outcome);
+      .all(discordId) as Array<{
+        bet_type: string;
+        bet_key: string;
+        outcome: 'WIN' | 'LOSS';
+        total: number;
+      }>;
   }
 }

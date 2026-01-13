@@ -20,7 +20,7 @@ export async function handleRouletteNewRound(
 
   if (interaction.user.id !== ownerId) {
     await interaction.editReply({
-      content: '❌ Not your button.',
+      content: '❌ **Not your button**',
     });
     return;
   }

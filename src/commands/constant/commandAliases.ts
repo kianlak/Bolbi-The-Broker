@@ -7,4 +7,13 @@ export const commandAliases: Record<string, string> = {
 
   casino: 'casino',
   c: 'casino',
+
+  inventory: 'inventory',
+  i: 'inventory',
+
+  use: 'use',
+  u: 'use',
+
+  binder: 'binder',
+  br: 'binder',
 };

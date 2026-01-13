@@ -2,11 +2,13 @@ import type { Interaction, InteractionResponse } from 'discord.js';
 
 import { profileInteractionRouter } from '../commands/commandOptions/profile/interactions/profileInteractionRouter.ts';
 import { casinoInteractionRouter } from '../commands/commandOptions/casino/interactions/casinoInteractionRouter.ts';
+import { binderInteractionRouter } from '../commands/commandOptions/binder/interaction/binderInteractionRouter.ts';
 
 const DOMAIN_ROUTERS: Record<
   string,
   (interaction: Interaction) => Promise<void | InteractionResponse<boolean>>
 > = {
+  binder: binderInteractionRouter,
   profile: profileInteractionRouter,
   casino: casinoInteractionRouter,
 };

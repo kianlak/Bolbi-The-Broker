@@ -40,16 +40,42 @@ export const ROULETTE_QUERIES = {
     DO UPDATE SET count = count + 1;
   `,
 
+  getRouletteStats: `
+    SELECT
+      spins_played,
+      baleh_bucks_won,
+      baleh_bucks_lost,
+      largest_win,
+      largest_loss,
+      bets_won,
+      bets_lost
+    FROM roulette_stats
+    WHERE discord_id = ?
+  `,
+
+  getRouletteBetTypeStats: `
+    SELECT
+      bet_type,
+      bet_key,
+      outcome,
+      SUM(count) as total
+    FROM casino_game_stats
+    WHERE discord_id = ?
+      AND game = 'ROULETTE'
+    GROUP BY bet_type, bet_key, outcome
+  `,
+
   incrementBetStat: `
     INSERT INTO casino_game_stats (
       discord_id,
       game,
       bet_type,
       bet_key,
+      outcome,
       count
     )
-    VALUES (?, ?, ?, ?, 1)
-    ON CONFLICT (discord_id, game, stat_type, stat_key)
+    VALUES (?, ?, ?, ?, ?, 1)
+    ON CONFLICT (discord_id, game, bet_type, bet_key, outcome)
     DO UPDATE SET count = count + 1;
   `,
 };

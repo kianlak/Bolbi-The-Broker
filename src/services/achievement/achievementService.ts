@@ -25,6 +25,7 @@ export class AchievementService {
       discordId,
       stats: {
         numberOfBegs: user.number_of_begs,
+        numberOfCardsCollected: user.number_cards_collected,
       },
     };
 
@@ -52,14 +53,14 @@ export class AchievementService {
   }
 
   getBegMultiplierFromTier(tier: number): number {
-  const achievement = ACHIEVEMENTS.find(
-    a => a.id === 'master_beggar'
-  );
+    const achievement = ACHIEVEMENTS.find(
+      a => a.id === 'master_beggar'
+    );
 
-  const tierDef = achievement?.tiers.find(
-    t => t.tier === tier
-  );
+    const tierDef = achievement?.tiers.find(
+      t => t.tier === tier
+    );
 
-  return tierDef?.reward?.multiplier ?? 1;
-}
+    return tierDef?.reward?.multiplier ?? 1;
+  }
 }

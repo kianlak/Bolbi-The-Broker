@@ -1,14 +1,19 @@
 import { logger } from "../../../shared/logger.ts";
 
 import { UserService } from "../../../services/user/userService.ts";
-import { renderMainProfileEmbed } from "./ui/buildMainProfile.ts";
+import { RouletteService } from "../../../services/casino/roulette/rouletteService.ts";
+import { buildMainProfileEmbed } from "./ui/buildMainProfileEmbed.ts";
+import { buildRouletteStatsProfileEmbed } from "./ui/buildRouletteStatsProfileEmbed.ts";
 
 import type { ProfileContext } from "./types/ProfileContext.ts";
 import type { ProfilePage } from "./types/ProfilePage.ts";
 import type { MainProfileStats } from "./types/MainProfileStats.ts";
 import type { UserContext } from "../../../types/UserContext.ts";
+import type { RouletteProfileStats } from "./types/RouletteProfileStats.ts";
+import type { RouletteBetWinRates } from "./types/RouletteBetWinRates.ts";
 
 const userService = new UserService();
+const rouletteService = new RouletteService();
 
 export async function profileRenderRouter(
   page: ProfilePage,
@@ -24,7 +29,18 @@ export async function profileRenderRouter(
 
         logger.info(`[${viewer.username}] User has selected to view [${profileContext.user.username}] main profile`);        
 
-        return renderMainProfileEmbed(profileContext, userStats);
+        return buildMainProfileEmbed(profileContext, userStats);
+      }
+
+      case 'roulette': {
+        const rouletteStats: RouletteProfileStats | null = rouletteService.getStats(profileContext.user.id);
+        const rouletteBetWinRates: RouletteBetWinRates | null = rouletteService.getBetTypeWinRates(profileContext.user.id);
+
+        if (!rouletteStats) return null;
+
+        logger.info(`[${viewer.username}] User has selected to view [${profileContext.user.username}] roulette stats`);        
+
+        return buildRouletteStatsProfileEmbed(profileContext, rouletteStats, rouletteBetWinRates);
       }
 
       default:
